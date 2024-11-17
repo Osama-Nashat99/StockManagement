@@ -15,10 +15,25 @@ namespace StockManagement.Domain.Services
             _validator = productValidator;
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public Result<IEnumerable<Product>> GetAllProducts()
         {
+            Result<IEnumerable<Product>> result;
+
             IEnumerable<Product> products = _productRepository.GetAllAsync().Result;
-            return products;
+
+            if (products == null || products.Count() == 0)
+                result = Result<IEnumerable<Product>>.Failure("No Products are available");
+
+            result = Result<IEnumerable<Product>>.Success(products);
+
+            return result;
+        }
+
+        public Product GetProductById(int id)
+        {   
+            
+            Product product = _productRepository.GetByIdAsync(id).Result;
+            return product;
         }
     }
 }

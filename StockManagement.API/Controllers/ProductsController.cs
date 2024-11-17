@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
+using StockManagement.Domain;
 using StockManagement.Domain.Entities;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Services;
@@ -20,10 +21,21 @@ namespace StockManagement.API.Controllers
 
         // GET: api/products
         [HttpGet]
-        public IEnumerable<ProductDto> Get()
+        public IActionResult Get()
         {
-            IEnumerable<Product> products = _productService.GetAllProducts();
-            return ProductsMapper.ToProductDto(products);
+            try
+            {
+                var result = _productService.GetAllProducts();
+
+                if (result.isSuccess == false)
+                    return NotFound(result.message);
+                
+                return Ok(ProductsMapper.ToProductDto(result.value));
+            }
+            catch (Exception ex)
+            { 
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
         // GET api/<ProductsController>/5
