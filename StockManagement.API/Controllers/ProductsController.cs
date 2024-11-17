@@ -28,39 +28,85 @@ namespace StockManagement.API.Controllers
                 var result = _productService.GetAllProducts();
 
                 if (result.isSuccess == false)
-                    return NotFound(result.message);
+                    return BadRequest(result.message);
                 
                 return Ok(ProductsMapper.ToProductDto(result.value));
             }
-            catch (Exception ex)
-            { 
+            catch (Exception ex) { 
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
 
-        // GET api/<ProductsController>/5
+        // GET api/product/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                var result = _productService.GetProductById(id);
+
+                if (result.isSuccess == false)
+                    return BadRequest(result.message);
+
+                return Ok(ProductsMapper.ToProductDto(result.value));
+            }
+            catch (Exception ex) {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
-        // POST api/<ProductsController>
+        // POST api/products
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] ProductDto product)
         {
+            try
+            {
+                var result = _productService.AddProduct(ProductsMapper.ToProductEntity(product));
+
+                if (result.isSuccess == false)
+                    return BadRequest(result.message);
+
+                return Ok(ProductsMapper.ToProductDto(result.value));
+            }
+            catch (Exception ex) {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
-        // PUT api/<ProductsController>/5
+        // PUT api/products/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] ProductDto product)
         {
+            try
+            {
+                var result = _productService.UpdateProduct(id, ProductsMapper.ToProductEntity(product));
+
+                if (result.isSuccess == false)
+                    return BadRequest(result.message);
+
+                return Ok(ProductsMapper.ToProductDto(result.value));
+            }
+            catch (Exception ex) {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                var result = _productService.DeleteProduct(id);
+
+                if (result.isSuccess == false)
+                    return BadRequest(result.message);
+
+                return Ok(ProductsMapper.ToProductDto(result.value));
+            }
+            catch (Exception ex) {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
     }
 }

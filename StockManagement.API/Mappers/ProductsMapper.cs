@@ -16,5 +16,30 @@ namespace StockManagement.API.Mappers
                 Quantity = p.Quantity 
             });
         }
+
+        public static ProductDto ToProductDto(Product product) 
+        {
+            return new ProductDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Category = product.Category,
+                Price = product.Price,
+                Quantity = product.Quantity
+            };
+        }
+
+        public static Product ToProductEntity(ProductDto dto) 
+        {
+            return new Product()
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+                Category = dto.Category,
+                Price = dto.Price,
+                Quantity = dto.Quantity
+            };
+        }
     }
 }

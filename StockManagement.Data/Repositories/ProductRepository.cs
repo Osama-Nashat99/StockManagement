@@ -15,12 +15,12 @@ namespace StockManagement.Data.Repositories
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _db.products.ToListAsync();
+            return await _db.products.AsNoTracking().ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _db.products.FindAsync(id);
+            return await _db.products.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public Task SaveAsync()
@@ -28,14 +28,24 @@ namespace StockManagement.Data.Repositories
             return _db.SaveChangesAsync();
         }
 
-        public async Task AddAsync(Product product)
+        public async Task<Product> AddAsync(Product product)
         {
             await _db.products.AddAsync(product);
+            await _db.SaveChangesAsync();
+            return product;
         }
 
-        public Task UpdateAsync(Product product)
+        public Product Update(Product product)
         {
-            throw new NotImplementedException();
+            _db.products.Update(product);
+            _db.SaveChanges();
+            return product;
+        }
+
+        public void Delete(Product product)
+        {
+            _db.Remove(product);
+            _db.SaveChanges();
         }
     }
 }

@@ -6,8 +6,9 @@ namespace StockManagement.Domain.Interfaces
     {
         Task<Product> GetByIdAsync(int id);
         Task<IEnumerable<Product>> GetAllAsync();
-        Task AddAsync(Product product);
-        Task UpdateAsync(Product product);
+        Task<Product> AddAsync(Product product);
+        Product Update(Product product);
+        void Delete(Product product);
         Task SaveAsync();
     }
 }
