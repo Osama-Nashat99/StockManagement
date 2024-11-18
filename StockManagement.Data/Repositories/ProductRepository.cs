@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StockManagement.Domain.Entities;
 using StockManagement.Domain.Interfaces;
+using StockManagement.Domain.Models;
 
 namespace StockManagement.Data.Repositories
 {
@@ -13,9 +14,18 @@ namespace StockManagement.Data.Repositories
             _db = applicationDbContext;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<FetchProductsModel> FetchAsync(int pageNumber = 1, int pageSize = 10)
         {
-            return await _db.products.AsNoTracking().ToListAsync();
+            FetchProductsModel model = new FetchProductsModel();
+
+            model.TotalProducts = await _db.products.AsNoTracking().CountAsync();
+
+            model.Products = await _db.products.AsNoTracking()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return model;
         }
 
         public async Task<Product> GetByIdAsync(int id)

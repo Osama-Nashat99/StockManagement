@@ -1,6 +1,7 @@
 ﻿using StockManagement.Domain.Entities;
 using StockManagement.Domain.Enums;
 using StockManagement.Domain.Interfaces;
+using StockManagement.Domain.Models;
 using StockManagement.Domain.Validators;
 
 namespace StockManagement.Domain.Services
@@ -16,14 +17,14 @@ namespace StockManagement.Domain.Services
             _validator = productValidator;
         }
 
-        public Result<IEnumerable<Product>> GetAllProducts()
+        public Result<FetchProductsModel> FetchProducts(int pageNumber = 1, int pageSize = 10)
         {
-            IEnumerable<Product> products = _productRepository.GetAllAsync().Result;
+            FetchProductsModel productsModel = _productRepository.FetchAsync(pageNumber, pageSize).Result;
 
-            if (products == null || products.Count() == 0)
-                return Result<IEnumerable<Product>>.Failure("No Products are available");
+            if (productsModel == null || productsModel.TotalProducts == 0 || productsModel.Products.Count() == 0)
+                return Result<FetchProductsModel>.Failure("Could not fetch products");
 
-            return Result<IEnumerable<Product>>.Success(products);
+            return Result<FetchProductsModel>.Success(productsModel);
         }
 
         public Result<Product> GetProductById(int id)

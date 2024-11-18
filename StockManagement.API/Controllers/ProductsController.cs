@@ -21,11 +21,11 @@ namespace StockManagement.API.Controllers
 
         // GET: api/products
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var result = _productService.GetAllProducts();
+                var result = _productService.FetchProducts(pageNumber, pageSize);
 
                 if (result.isSuccess == false)
                     return BadRequest(result.message);
