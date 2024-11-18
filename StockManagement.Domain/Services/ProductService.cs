@@ -2,8 +2,6 @@
 using StockManagement.Domain.Enums;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Validators;
-using System.Reflection.Metadata.Ecma335;
-using System.Xml.XPath;
 
 namespace StockManagement.Domain.Services
 {
@@ -30,8 +28,10 @@ namespace StockManagement.Domain.Services
 
         public Result<Product> GetProductById(int id)
         {   
-            if (id == 0)            
-                return Result<Product>.Failure("Id should be greater than 0");            
+            var result = _validator.GetByIdValidation(id);
+            
+            if (result.isSuccess == false)
+                return result;
             
             Product product = _productRepository.GetByIdAsync(id).Result;
 
@@ -43,17 +43,10 @@ namespace StockManagement.Domain.Services
 
         public Result<Product> AddProduct(Product product) 
         {
-            if (string.IsNullOrEmpty(product.Name)) 
-                return Result<Product>.Failure("Product name is required");
+            var result = _validator.AddProductValidation(product);
 
-            if (!Enum.IsDefined(typeof(Categories), product.Category))
-                return Result<Product>.Failure("Product category is not defined");
-
-            if (product.Price < 0)
-                return Result<Product>.Failure("Product price should be greater than 0");
-
-            if (product.Quantity < 0) 
-                return Result<Product>.Failure("Product quantity should be greater than 0");
+            if (result.isSuccess == false)
+                return result;
 
             product = _productRepository.AddAsync(product).Result;
 
@@ -65,26 +58,12 @@ namespace StockManagement.Domain.Services
 
         public Result<Product> UpdateProduct(int id, Product product)
         {
-            if (id == 0)
-                return Result<Product>.Failure("Id should be greater than 0");
+            var result = _validator.UpdateProductValidation(id, product);
 
-            if (_productRepository.GetByIdAsync(id).Result == null)
-                return Result<Product>.Failure($"Product with id {id} was not found");
-
-            if (string.IsNullOrEmpty(product.Name))
-                return Result<Product>.Failure("Product name is required");
-
-            if (!Enum.IsDefined(typeof(Categories), product.Category))
-                return Result<Product>.Failure("Product category is not defined");
-
-            if (product.Price < 0)
-                return Result<Product>.Failure("Product price should be greater than 0");
-
-            if (product.Quantity < 0)
-                return Result<Product>.Failure("Product quantity should be greater than 0");
+            if (result.isSuccess == false)
+                return result;
 
             product.Id = id;
-
             product = _productRepository.Update(product);
 
             return Result<Product>.Success(product);
@@ -92,8 +71,10 @@ namespace StockManagement.Domain.Services
 
         public Result<Product> DeleteProduct(int id)
         {
-            if (id == 0)
-                return Result<Product>.Failure("Id should be greater than 0");
+            var result = _validator.DeleteProductValidation(id);
+
+            if (result.isSuccess == false)
+                return result;
 
             Product product = _productRepository.GetByIdAsync(id).Result;
 
