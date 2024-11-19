@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
-using StockManagement.Domain;
-using StockManagement.Domain.Entities;
-using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Services;
 
 namespace StockManagement.API.Controllers
@@ -21,11 +18,11 @@ namespace StockManagement.API.Controllers
 
         // GET: api/products
         [HttpGet]
-        public IActionResult Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public IActionResult Get([FromQuery] string? name, [FromQuery] string? description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var result = _productService.FetchProducts(pageNumber, pageSize);
+                var result = _productService.FetchProducts(name, description, pageNumber, pageSize);
 
                 if (result.isSuccess == false)
                     return BadRequest(result.message);

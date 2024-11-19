@@ -17,11 +17,11 @@ namespace StockManagement.Domain.Services
             _validator = productValidator;
         }
 
-        public Result<FetchProductsModel> FetchProducts(int pageNumber = 1, int pageSize = 10)
+        public Result<FetchProductsModel> FetchProducts(string name, string description, int pageNumber = 1, int pageSize = 10)
         {
-            FetchProductsModel productsModel = _productRepository.FetchAsync(pageNumber, pageSize).Result;
+            FetchProductsModel productsModel = _productRepository.FetchAsync(name, description, pageNumber, pageSize).Result;
 
-            if (productsModel == null || productsModel.TotalProducts == 0 || productsModel.Products.Count() == 0)
+            if (productsModel == null)
                 return Result<FetchProductsModel>.Failure("Could not fetch products");
 
             return Result<FetchProductsModel>.Success(productsModel);

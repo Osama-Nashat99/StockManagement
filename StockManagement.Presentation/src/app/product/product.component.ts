@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/Product.model';
 import { NgFor, NgIf } from '@angular/common';
 import { category } from '../../enums/category.enum';
-import { catchError, finalize, of, Subscription } from 'rxjs';
+import { finalize } from 'rxjs';
 import { ProductService } from '../services/product.service';
 import { RouterLink } from '@angular/router';
 import { MatPaginatorModule, PageEvent,  } from '@angular/material/paginator';
 import { ExportToExcelComponent } from '../export-to-excel/export-to-excel.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [NgFor, NgIf, RouterLink, MatPaginatorModule, ExportToExcelComponent],
+  imports: [NgFor, NgIf, RouterLink, FormsModule, MatPaginatorModule, ExportToExcelComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -23,6 +24,8 @@ export class ProductComponent implements OnInit {
   currentPage: number = 1;
   pageSizeOptions: number[] = [5, 10, 25, 50];
   showFirstLastButtons = true;
+  nameFilter: string = '';
+  descriptionFilter: string = '';
 
   constructor(private productService: ProductService){}
 
@@ -33,7 +36,7 @@ export class ProductComponent implements OnInit {
   loadProducts() {
     this.loading = true;
 
-    this.productService.FetchAll(this.currentPage, this.pageSize)
+    this.productService.fetchAll(this.currentPage, this.pageSize, this.nameFilter, this.descriptionFilter)
       .pipe(
         finalize(() => {
           this.loading = false;
@@ -55,6 +58,10 @@ export class ProductComponent implements OnInit {
   getCategoryName(categoryId: number): string {
     return category[categoryId] || category[category.None]
   };
+
+  filterProducts() {
+    this.loadProducts();
+  }
 
 
 

@@ -5,46 +5,55 @@
         </div>
     </div>
 
-    <app-export-to-excel [items]="productsList" title="Products"></app-export-to-excel>
+    <div *ngIf="!loading">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-center">
+                <input [(ngModel)]="nameFilter" type="text" class="form-control form-control-sm me-2" placeholder="Name" />
+                <input [(ngModel)]="descriptionFilter" type="text" class="form-control form-control-sm me-2" placeholder="Description" />
+                <button class="btn btn-primary btn-sm" (click)="filterProducts()">Search</button>
+            </div>
 
-    <table *ngIf="!loading" class="table table-hover">
-        <thead>
-            <tr class="table-success">
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="productsList.length > 0">
-            <tr *ngFor="let product of productsList">
-                <th scope="row">{{product.id}}</th>
-                <td>{{product.name}}</td>
-                <td>{{product.description}}</td>
-                <td>{{getCategoryName(product.category)}}</td>
-                <td><i class="bi bi-currency-dollar"></i>{{product.price}}</td>
-                <td>{{product.quantity}}</td>
-                <td><a [routerLink]="'/products/edit/' + product.id"><i class="bi bi-pencil"></i></a> | <a><i class="bi bi-trash"></i></a></td>
-            </tr>
-        </tbody>
+            <app-export-to-excel [items]="productsList" title="Products"></app-export-to-excel>
+        </div>
 
-        <tbody *ngIf="productsList.length <= 0">
-            <tr>
-                <td colspan="7" class="text-body-tertiary text-center">No products are available</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-success">
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="productsList.length > 0">
+                <tr *ngFor="let product of productsList">
+                    <th scope="row">{{product.id}}</th>
+                    <td>{{product.name}}</td>
+                    <td>{{product.description}}</td>
+                    <td>{{getCategoryName(product.category)}}</td>
+                    <td><i class="bi bi-currency-dollar"></i>{{product.price}}</td>
+                    <td>{{product.quantity}}</td>
+                    <td><a [routerLink]="'edit/' + product.id"><i class="bi bi-pencil"></i></a> | <a><i class="bi bi-trash"></i></a></td>
+                </tr>
+            </tbody>
 
-    <mat-paginator
-      [length]="totalProducts"
-      [pageSize]="pageSize"
-      [showFirstLastButtons]="showFirstLastButtons"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageChange($event)">
-    </mat-paginator>
+            <tbody *ngIf="productsList.length <= 0">
+                <tr>
+                    <td colspan="7" class="text-body-tertiary text-center">No products are available</td>
+                </tr>
+            </tbody>
+        </table>
 
+        <mat-paginator
+            [length]="totalProducts"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
 </div>
 

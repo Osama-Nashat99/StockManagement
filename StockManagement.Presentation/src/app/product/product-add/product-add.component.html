@@ -1,0 +1,53 @@
+<div class="mt-4 p-3 col-12">
+    <h3>Create Product</h3>
+    <hr>
+    <form (ngSubmit)="onCreateProduct()" [formGroup]="createProductForm">
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input formControlName="name" type="text" class="form-control" id="name" placeholder="Product Name">
+                <span class="validation-message" *ngIf="name.invalid && name.touched">
+                    Please provide a valid product name.
+                </span>
+            </div>
+    
+            <div class="mb-3 col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select formControlName="category" class="form-select">
+                    <option *ngFor="let c of categories" [value]="c.value">{{c.label}}</option>
+                </select>
+            </div>
+        </div>        
+
+        <div class="row">
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Product Description"></textarea>
+                <span class="validation-message" *ngIf="description.invalid && description.touched">
+                    Please provide a valid product description.
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="price" class="form-label">Price</label>
+                <input formControlName="price" type="number" class="form-control" id="price">
+                <span class="validation-message" *ngIf="price.invalid && price.touched">
+                    Please provide a valid product price.
+                </span>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input formControlName="quantity" type="number" class="form-control" id="quantity">
+                <span class="validation-message" *ngIf="quantity.invalid && quantity.touched">
+                    Please provide a valid product quantity.
+                </span>
+            </div>
+        </div>
+
+        <button class="btn btn-primary me-2" type="submit" [disabled]="createProductForm.invalid">Create</button>
+        <button class="btn btn-secondary" (click)="resetFormValues()">Reset</button>
+    </form>
+</div>

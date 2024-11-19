@@ -1,4 +1,3 @@
-import { category } from "../enums/category.enum";
 
 export interface Product {
     id: number,

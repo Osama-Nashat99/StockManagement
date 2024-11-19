@@ -14,16 +14,28 @@ namespace StockManagement.Data.Repositories
             _db = applicationDbContext;
         }
 
-        public async Task<FetchProductsModel> FetchAsync(int pageNumber = 1, int pageSize = 10)
+        public async Task<FetchProductsModel> FetchAsync(string name, string description, int pageNumber = 1, int pageSize = 10)
         {
             FetchProductsModel model = new FetchProductsModel();
 
-            model.TotalProducts = await _db.products.AsNoTracking().CountAsync();
+            model.Products = await _db.products.AsNoTracking().ToListAsync();
 
-            model.Products = await _db.products.AsNoTracking()
+            if (!string.IsNullOrEmpty(name))
+            {
+                model.Products = model.Products.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(description))
+            {
+                model.Products = model.Products.Where(p => p.Description.Contains(description, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            model.TotalProducts = model.Products.Count();
+
+            model.Products = model.Products
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToList();
 
             return model;
         }

@@ -4,5 +4,6 @@ export enum category {
     Accessories = 2,
     Electronics = 3,
     Kitchen = 4,
-    Cars = 5
+    Cars = 5,
+    Computers = 6
 }
