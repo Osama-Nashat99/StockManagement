@@ -3,20 +3,20 @@ import { Component, OnInit } from '@angular/core';
 import { category } from '../../../enums/category.enum';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { Product } from '../../../models/Product.model';
-import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-add',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })
 export class ProductAddComponent implements OnInit {
   categories: {value: number, label: String}[] = [];
 
-  constructor(private productService: ProductService, private snackBar: MatSnackBar) {}
+  constructor(private productService: ProductService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.categories = this.getCategoryOptions();
@@ -36,34 +36,22 @@ export class ProductAddComponent implements OnInit {
   price = this.createProductForm.controls['price'];
   quantity = this.createProductForm.controls['quantity'];
 
-  resetFormValues(){
-    this.createProductForm.reset();
-    this.category.setValue(0);
-    this.price.setValue(0);
-    this.quantity.setValue(0);
-  }
-
-  pName: string = this.name.value;
-  pDescription: string = this.description.value;
-  pCategory: number = this.category.value;
-  pPrice: number = this.price.value;
-  pQuantity: number = this.quantity.value;
-
-  
   onCreateProduct(){
+    const formValues = this.createProductForm.value;
+    formValues.category = parseInt(formValues.category);
 
-    const formval = this.createProductForm.value;
-
-    this.productService.createProduct(formval)
+    this.productService.createProduct(formValues)
           .subscribe(product => {
             if (product.id > 0){
               this.snackBar.open('Product has been created successfuly', 'Done', {
                 duration: 3000
               });
+
+              this.router.navigate(['/products']);
             }
           });
   }
-  
+
   private getCategoryOptions(): {value: number, label: String}[] {
     var categoriesArray = [];
 

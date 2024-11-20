@@ -22,12 +22,12 @@ namespace StockManagement.Data.Repositories
 
             if (!string.IsNullOrEmpty(name))
             {
-                model.Products = model.Products.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                model.Products = model.Products.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             if (!string.IsNullOrEmpty(description))
             {
-                model.Products = model.Products.Where(p => p.Description.Contains(description, StringComparison.OrdinalIgnoreCase)).ToList();
+                model.Products = model.Products.Where(p => !string.IsNullOrEmpty(p.Description) && p.Description.Contains(description, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             model.TotalProducts = model.Products.Count();

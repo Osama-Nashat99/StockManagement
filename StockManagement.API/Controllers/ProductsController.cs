@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
 using StockManagement.Domain.Services;
@@ -17,6 +18,7 @@ namespace StockManagement.API.Controllers
         }
 
         // GET: api/products
+        [Authorize]
         [HttpGet]
         public IActionResult Get([FromQuery] string? name, [FromQuery] string? description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
@@ -53,6 +55,7 @@ namespace StockManagement.API.Controllers
         }
 
         // POST api/products
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] ProductDto product)
         {
@@ -71,6 +74,7 @@ namespace StockManagement.API.Controllers
         }
 
         // PUT api/products/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ProductDto product)
         {
@@ -89,6 +93,7 @@ namespace StockManagement.API.Controllers
         }
 
         // DELETE api/<ProductsController>/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

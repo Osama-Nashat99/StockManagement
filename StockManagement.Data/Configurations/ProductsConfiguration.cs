@@ -13,7 +13,7 @@ namespace StockManagement.Data.Configurations
 
             builder.Property("Name").HasMaxLength(100).IsRequired(true);
 
-            builder.Property("Description").HasMaxLength(500).IsRequired(false);
+            builder.Property("Description").HasMaxLength(500).IsRequired(true);
 
             builder.Property("Category").HasDefaultValue(Categories.None).IsRequired(true);
 

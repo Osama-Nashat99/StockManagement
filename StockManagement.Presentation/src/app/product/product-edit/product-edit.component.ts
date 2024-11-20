@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { category } from '../../../enums/category.enum';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../../models/Product.model';
-import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.css'
 })
@@ -18,7 +18,7 @@ export class ProductEditComponent implements OnInit {
   productId: number = 0;
   categories: {value: number, label: String}[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService){}
+  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService, private snackBar: MatSnackBar){}
 
   updateProductForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
@@ -51,8 +51,14 @@ export class ProductEditComponent implements OnInit {
   onUpdateProduct(){
     const formValues = this.updateProductForm.value;
 
+    formValues.category = parseInt(formValues.category);
+
     this.productService.updateProduct(this.productId, formValues).subscribe(res => {
-      console.log(res);
+      this.snackBar.open('Product has been updated successfuly', 'Done', {
+        duration: 3000
+      });
+
+      this.router.navigate(['/products']);
     })
   }
 
@@ -71,6 +77,6 @@ export class ProductEditComponent implements OnInit {
     return categoriesArray;
   }
 
-  
+
 
 }

@@ -41,7 +41,7 @@ export class ProductService {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
-    
+
     return this.http.post<Product>(`${this.baseUrl}/products`, product, {headers})
   }
 
