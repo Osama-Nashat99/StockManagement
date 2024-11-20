@@ -4,13 +4,13 @@ import { NgFor, NgIf } from '@angular/common';
 import { category } from '../../../enums/category.enum';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { Product } from '../../../models/Product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.css'
 })

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace StockManagement.Domain.Services
 
             if (user == null)
             {
-                return Result<string>.Failure("invalid credentials");
+                return Result<string>.Failure("invalid credentials", HttpStatusCode.Unauthorized);
             }
 
             string token = GenerateJwtToken(user);
@@ -36,7 +37,7 @@ namespace StockManagement.Domain.Services
 
         private string GenerateJwtToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("StockManagementSecretKey"));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("6e2bde2e69faed946c60f38b4c2a86a4d6f4d45956bb2c9bc6c51228cc2d590f"));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

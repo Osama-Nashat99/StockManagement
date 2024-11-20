@@ -14,17 +14,13 @@ export class ExportToExcelComponent {
   @Input() title: string = '';
 
   exportToExcel(): void {
-    // Convert your table data into a worksheet
     const worksheet = XLSX.utils.json_to_sheet(this.items);
-
-    // Create a workbook and append the worksheet
     const workbook = XLSX.utils.book_new();
+
     XLSX.utils.book_append_sheet(workbook, worksheet, this.title);
 
-    // Write the workbook to a Blob
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
-    // Save the Blob as an Excel file
     this.saveAsExcelFile(excelBuffer, this.title);
   }
 

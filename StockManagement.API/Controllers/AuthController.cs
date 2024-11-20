@@ -15,15 +15,22 @@ namespace StockManagement.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         public IActionResult Login([FromBody] LoginModel model)
         {
-             var result = _authService.Authorize(model.Username, model.Password);
+            try
+            {
+                var result = _authService.Authorize(model.Username, model.Password);
 
-            if (result.isSuccess == false)
-                return Unauthorized(result.message);
+                if (result.isSuccess == false)
+                    return StatusCode(result.code.GetHashCode(), result.message);
 
-            return Ok(new { Token = result.value });
+                return Ok(new { Token = result.value });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         } 
     }
 }

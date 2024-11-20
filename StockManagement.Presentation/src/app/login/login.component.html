@@ -1,0 +1,31 @@
+<div class="login-container">
+    <div class="login-card">
+        <h3>Login</h3>
+        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" formControlName="username" class="form-control" id="username">
+                <span class="validation-message" *ngIf="username.invalid && username.touched">
+                    Please enter your username.
+                </span>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" formControlName="password" class="form-control" id="password" name="password" required>
+                <span class="validation-message" *ngIf="password.invalid && password.touched">
+                    Please enter your password.
+                </span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+        </form>
+
+        <div class="login-footer">
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+    </div>
+</div>

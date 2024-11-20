@@ -45,11 +45,6 @@ namespace StockManagement.Data.Repositories
             return await _db.products.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task SaveAsync()
-        {
-            return _db.SaveChangesAsync();
-        }
-
         public async Task<Product> AddAsync(Product product)
         {
             await _db.products.AddAsync(product);

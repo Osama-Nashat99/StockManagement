@@ -8,11 +8,13 @@ import { RouterLink } from '@angular/router';
 import { MatPaginatorModule, PageEvent,  } from '@angular/material/paginator';
 import { ExportToExcelComponent } from '../export-to-excel/export-to-excel.component';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../header/header.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [NgFor, NgIf, RouterLink, FormsModule, MatPaginatorModule, ExportToExcelComponent],
+  imports: [NgFor, NgIf, RouterLink, FormsModule, MatPaginatorModule, ExportToExcelComponent, HeaderComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -27,7 +29,7 @@ export class ProductComponent implements OnInit {
   nameFilter: string = '';
   descriptionFilter: string = '';
 
-  constructor(private productService: ProductService){}
+  constructor(private productService: ProductService, private authService: AuthService){}
 
   ngOnInit(): void {
     this.loadProducts()
@@ -62,7 +64,10 @@ export class ProductComponent implements OnInit {
   filterProducts() {
     this.loadProducts();
   }
-
+  
+  isAdmin(): boolean{
+    return this.authService.isAdmin();
+  }
 
 
 }

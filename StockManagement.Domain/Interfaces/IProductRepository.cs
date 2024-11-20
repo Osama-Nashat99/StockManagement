@@ -10,6 +10,5 @@ namespace StockManagement.Domain.Interfaces
         Task<Product> AddAsync(Product product);
         Product Update(Product product);
         void Delete(Product product);
-        Task SaveAsync();
     }
 }

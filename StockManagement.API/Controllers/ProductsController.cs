@@ -27,8 +27,8 @@ namespace StockManagement.API.Controllers
                 var result = _productService.FetchProducts(name, description, pageNumber, pageSize);
 
                 if (result.isSuccess == false)
-                    return BadRequest(result.message);
-                
+                    return StatusCode(result.code.GetHashCode(), result.message);
+
                 return Ok(ProductsMapper.ToProductDto(result.value));
             }
             catch (Exception ex) { 
@@ -45,7 +45,7 @@ namespace StockManagement.API.Controllers
                 var result = _productService.GetProductById(id);
 
                 if (result.isSuccess == false)
-                    return BadRequest(result.message);
+                    return StatusCode(result.code.GetHashCode(), result.message);
 
                 return Ok(ProductsMapper.ToProductDto(result.value));
             }
@@ -64,7 +64,7 @@ namespace StockManagement.API.Controllers
                 var result = _productService.AddProduct(ProductsMapper.ToProductEntity(product));
 
                 if (result.isSuccess == false)
-                    return BadRequest(result.message);
+                    return StatusCode(result.code.GetHashCode(), result.message);
 
                 return Ok(ProductsMapper.ToProductDto(result.value));
             }
@@ -83,7 +83,7 @@ namespace StockManagement.API.Controllers
                 var result = _productService.UpdateProduct(id, ProductsMapper.ToProductEntity(product));
 
                 if (result.isSuccess == false)
-                    return BadRequest(result.message);
+                    return StatusCode(result.code.GetHashCode(), result.message);
 
                 return Ok(ProductsMapper.ToProductDto(result.value));
             }
@@ -102,7 +102,7 @@ namespace StockManagement.API.Controllers
                 var result = _productService.DeleteProduct(id);
 
                 if (result.isSuccess == false)
-                    return BadRequest(result.message);
+                    return StatusCode(result.code.GetHashCode(), result.message);
 
                 return Ok(ProductsMapper.ToProductDto(result.value));
             }

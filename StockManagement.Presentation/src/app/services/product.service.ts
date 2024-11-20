@@ -18,7 +18,6 @@ export class ProductService {
   }
 
   fetchAll(pageNumber: number, pageSize: number, nameFilter?: string, descFilter?: string): Observable<FetchProducts> {
-
     let params = new HttpParams();
 
     if (nameFilter) {
@@ -36,7 +35,6 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'

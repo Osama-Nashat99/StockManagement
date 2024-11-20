@@ -5,11 +5,12 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { ProductService } from '../../services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-product-add',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })

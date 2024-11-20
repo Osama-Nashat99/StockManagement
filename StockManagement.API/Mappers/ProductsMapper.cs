@@ -26,18 +26,6 @@ namespace StockManagement.API.Mappers
             return dto;
         }
 
-        public static IEnumerable<ProductDto> ToProductDto(IEnumerable<Product> products)
-        {
-            return products.Select(p => new ProductDto() { 
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Category = p.Category,
-                Price = p.Price,
-                Quantity = p.Quantity 
-            });
-        }
-
         public static ProductDto ToProductDto(Product product) 
         {
             return new ProductDto()

@@ -1,8 +1,8 @@
 ﻿using StockManagement.Domain.Entities;
-using StockManagement.Domain.Enums;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
 using StockManagement.Domain.Validators;
+using System.Net;
 
 namespace StockManagement.Domain.Services
 {
@@ -22,7 +22,7 @@ namespace StockManagement.Domain.Services
             FetchProductsModel productsModel = _productRepository.FetchAsync(name, description, pageNumber, pageSize).Result;
 
             if (productsModel == null)
-                return Result<FetchProductsModel>.Failure("Could not fetch products");
+                return Result<FetchProductsModel>.Failure("Could not fetch products", HttpStatusCode.InternalServerError);
 
             return Result<FetchProductsModel>.Success(productsModel);
         }
@@ -37,7 +37,7 @@ namespace StockManagement.Domain.Services
             Product product = _productRepository.GetByIdAsync(id).Result;
 
             if (product == null)            
-                return Result<Product>.Failure($"Product with id {id} was not found");
+                return Result<Product>.Failure($"Product with id {id} was not found", HttpStatusCode.NotFound);
 
             return Result<Product>.Success(product);
         }
@@ -52,7 +52,7 @@ namespace StockManagement.Domain.Services
             product = _productRepository.AddAsync(product).Result;
 
             if (product == null || product.Id <= 0)
-                return Result<Product>.Failure("Product was not added");
+                return Result<Product>.Failure("Product was not added", HttpStatusCode.InternalServerError);
 
             return Result<Product>.Success(product);
         }
@@ -80,7 +80,7 @@ namespace StockManagement.Domain.Services
             Product product = _productRepository.GetByIdAsync(id).Result;
 
             if (product == null)
-                return Result<Product>.Failure($"Product with id {id} was not found");
+                return Result<Product>.Failure($"Product with id {id} was not found", HttpStatusCode.NotFound);
 
             _productRepository.Delete(product);
 

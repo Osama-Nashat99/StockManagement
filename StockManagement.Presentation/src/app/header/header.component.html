@@ -5,7 +5,10 @@
                 <div class="container-fluid d-flex">
                     <a class="navbar-brand" routerLink="/products">Products Stock</a>
                 </div>
-                <a class="btn btn-outline-primary btn-sm text-nowrap" routerLink="/products/add"><i class="bi bi-plus-lg"></i> Add Product</a>
+                <div class="d-flex">
+                    <a *ngIf="isAdmin() && !isActiveRoute('/products/add')" class="btn btn-outline-primary btn-sm text-nowrap" routerLink="/products/add"><i class="bi bi-plus-lg"></i> Add Product</a>
+                    <button [hidden]="!isLoggedIn" class="btn btn-outline-primary btn-sm text-nowrap ms-2" (click)="logout()"><i class="bi bi-box-arrow-left"></i> Logout</button>
+                </div>
             </div>
         </div>
     </div>
