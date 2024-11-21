@@ -49,7 +49,6 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    debugger;
     const decodedToken = this.decodeToken();
     return decodedToken && decodedToken.sub === 'admin';
   }

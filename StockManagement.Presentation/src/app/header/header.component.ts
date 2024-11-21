@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NgIf } from '@angular/common';
 
@@ -13,14 +13,13 @@ import { NgIf } from '@angular/common';
 export class HeaderComponent implements OnInit {
 
   isLoggedIn: boolean = false;
-  constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute){}
+  constructor(private authService: AuthService, private router: Router){}
 
   isActiveRoute(route: string): boolean {
     return this.router.url === route;
   }
   
   ngOnInit(): void {
-    debugger;
     this.isLoggedIn = this.authService.isLoggedIn();
   }
 

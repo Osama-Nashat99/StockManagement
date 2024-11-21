@@ -6,10 +6,12 @@ import { ProductEditComponent } from './product/product-edit/product-edit.compon
 import { AuthGuard } from '../guards/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
     { path: '',   redirectTo: 'products', pathMatch: 'full' },
     { path: 'login', component: LoginComponent},
+    { path: 'users', component: UsersComponent, canActivate: [AuthGuard, AdminGuard]},
     { path: "products", component: ProductComponent, canActivate: [AuthGuard] },
     { path: "products/add", component: ProductAddComponent, canActivate: [AuthGuard, AdminGuard] },
     { path: "products/edit/:id", component: ProductEditComponent, canActivate: [AuthGuard, AdminGuard]},
