@@ -3,13 +3,13 @@ import { Product } from '../../models/Product.model';
 import { NgFor, NgIf } from '@angular/common';
 import { category } from '../../enums/category.enum';
 import { finalize } from 'rxjs';
-import { ProductService } from '../services/product.service';
+import { ProductService } from '../../services/product.service';
 import { RouterLink } from '@angular/router';
 import { MatPaginatorModule, PageEvent,  } from '@angular/material/paginator';
 import { ExportToExcelComponent } from '../export-to-excel/export-to-excel.component';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../header/header.component';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product',

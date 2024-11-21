@@ -3,9 +3,9 @@ import { ProductComponent } from './product/product.component';
 import { ProductAddComponent } from './product/product-add/product-add.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProductEditComponent } from './product/product-edit/product-edit.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 import { LoginComponent } from './login/login.component';
-import { AdminGuard } from './admin.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 export const routes: Routes = [
     { path: '',   redirectTo: 'products', pathMatch: 'full' },

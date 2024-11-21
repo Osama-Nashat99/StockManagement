@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 
@@ -12,7 +12,7 @@ import { NgIf } from '@angular/common';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-    
+
   constructor(private authService: AuthService, private router: Router) {}
 
   loginForm: FormGroup = new FormGroup({
