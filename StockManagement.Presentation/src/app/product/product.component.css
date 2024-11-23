@@ -1,0 +1,12 @@
+.filter {
+  width: 335px;
+}
+
+input,
+input::placeholder {
+    font-size: 14px;
+}
+
+th {
+  cursor: pointer;
+}

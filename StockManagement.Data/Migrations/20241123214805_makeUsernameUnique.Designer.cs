@@ -12,8 +12,8 @@ using StockManagement.Data;
 namespace StockManagement.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120081958_products-seed")]
-    partial class productsseed
+    [Migration("20241123214805_makeUsernameUnique")]
+    partial class makeUsernameUnique
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,70 @@ namespace StockManagement.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("StockManagement.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "admin",
+                            Name = "Clothes"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "admin",
+                            Name = "Accessories"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "admin",
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = "admin",
+                            Name = "Kitchen"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedBy = "admin",
+                            Name = "Cars"
+                        });
+                });
+
             modelBuilder.Entity("StockManagement.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -33,12 +97,13 @@ namespace StockManagement.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Category")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
@@ -47,6 +112,12 @@ namespace StockManagement.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -62,14 +133,16 @@ namespace StockManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("products");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "A high-end smartphone with amazing features",
                             Name = "Smartphone XYZ",
                             Price = 799.00m,
@@ -78,8 +151,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Category = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 1,
+                            CreatedBy = "admin",
                             Description = "A premium leather jacket for winter",
                             Name = "Stylish Leather Jacket",
                             Price = 120.00m,
@@ -88,8 +161,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "Noise-canceling wireless headphones",
                             Name = "Bluetooth Headphones",
                             Price = 150.00m,
@@ -98,8 +171,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 4,
-                            Category = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 1,
+                            CreatedBy = "admin",
                             Description = "A cozy winter jacket to keep you warm",
                             Name = "Winter Jacket",
                             Price = 80.00m,
@@ -108,8 +181,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 5,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "A smartwatch with fitness tracking and notifications",
                             Name = "Smart Watch",
                             Price = 200.00m,
@@ -118,8 +191,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 6,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "Ultra HD LED TV with smart features",
                             Name = "LED TV",
                             Price = 500.00m,
@@ -128,8 +201,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 7,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Fast boiling electric kettle for quick tea or coffee",
                             Name = "Electric Kettle",
                             Price = 30.00m,
@@ -138,8 +211,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 8,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Energy-efficient fridge with large capacity",
                             Name = "Refrigerator",
                             Price = 800.00m,
@@ -148,8 +221,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 9,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "Water-resistant portable Bluetooth speaker",
                             Name = "Portable Speaker",
                             Price = 90.00m,
@@ -158,8 +231,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 10,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Healthy cooking with this modern air fryer",
                             Name = "Air Fryer",
                             Price = 150.00m,
@@ -168,8 +241,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 11,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Sonic electric toothbrush for cleaner teeth",
                             Name = "Electric Toothbrush",
                             Price = 60.00m,
@@ -178,8 +251,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 12,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "High-quality digital camera for photography enthusiasts",
                             Name = "Digital Camera",
                             Price = 400.00m,
@@ -188,8 +261,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 13,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "Ergonomic gaming mouse with customizable buttons",
                             Name = "Gaming Mouse",
                             Price = 50.00m,
@@ -198,8 +271,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 14,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Adjustable desk lamp with LED lighting",
                             Name = "LED Desk Lamp",
                             Price = 40.00m,
@@ -208,8 +281,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 15,
-                            Category = 5,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 5,
+                            CreatedBy = "admin",
                             Description = "Magnetic phone mount for easy car navigation",
                             Name = "Car Phone Mount",
                             Price = 20.00m,
@@ -218,8 +291,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 16,
-                            Category = 5,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 5,
+                            CreatedBy = "admin",
                             Description = "Spacious 4-person camping tent with waterproof design",
                             Name = "Camping Tent",
                             Price = 120.00m,
@@ -228,8 +301,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 17,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Wi-Fi enabled smart thermostat for energy savings",
                             Name = "Smart Thermostat",
                             Price = 250.00m,
@@ -238,8 +311,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 18,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "High-capacity portable power bank for smartphones",
                             Name = "Portable Charger",
                             Price = 40.00m,
@@ -248,8 +321,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 19,
-                            Category = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 1,
+                            CreatedBy = "admin",
                             Description = "Durable and spacious backpack for laptops and accessories",
                             Name = "Laptop Backpack",
                             Price = 40.00m,
@@ -258,8 +331,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 20,
-                            Category = 0,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 1,
+                            CreatedBy = "admin",
                             Description = "Sleek modern wall clock with a minimal design",
                             Name = "Wall Clock",
                             Price = 25.00m,
@@ -268,8 +341,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 21,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Professional blow dryer with multiple heat settings",
                             Name = "Hair Dryer",
                             Price = 70.00m,
@@ -278,8 +351,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 22,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Blend your smoothies on the go with this portable blender",
                             Name = "Portable Blender",
                             Price = 45.00m,
@@ -288,8 +361,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 23,
-                            Category = 5,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 5,
+                            CreatedBy = "admin",
                             Description = "Portable camping stove for outdoor cooking",
                             Name = "Camping Stove",
                             Price = 70.00m,
@@ -298,8 +371,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 24,
-                            Category = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 3,
+                            CreatedBy = "admin",
                             Description = "Wearable fitness tracker to monitor daily activities",
                             Name = "Fitness Tracker",
                             Price = 130.00m,
@@ -308,8 +381,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 25,
-                            Category = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 1,
+                            CreatedBy = "admin",
                             Description = "Ergonomic gaming chair with adjustable armrests",
                             Name = "Gaming Chair",
                             Price = 180.00m,
@@ -318,8 +391,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 26,
-                            Category = 5,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 5,
+                            CreatedBy = "admin",
                             Description = "Eco-friendly solar charger for your devices",
                             Name = "Solar Charger",
                             Price = 35.00m,
@@ -328,8 +401,8 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 27,
-                            Category = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CategoryId = 4,
+                            CreatedBy = "admin",
                             Description = "Home air purifier with HEPA filter for cleaner air",
                             Name = "Air Purifier",
                             Price = 150.00m,
@@ -345,10 +418,24 @@ namespace StockManagement.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -362,12 +449,16 @@ namespace StockManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CreatedBy = "admin",
                             Password = "admin123",
                             Role = "Admin",
                             Username = "admin"
@@ -375,10 +466,27 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 2,
+                            CreatedBy = "admin",
                             Password = "user123",
                             Role = "User",
                             Username = "user"
                         });
+                });
+
+            modelBuilder.Entity("StockManagement.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("StockManagement.Domain.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("StockManagement.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

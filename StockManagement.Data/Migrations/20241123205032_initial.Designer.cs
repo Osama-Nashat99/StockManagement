@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockManagement.Data;
 
@@ -11,9 +12,11 @@ using StockManagement.Data;
 namespace StockManagement.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241123205032_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,31 +60,26 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedBy = "admin",
                             Name = "Clothes"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedBy = "admin",
                             Name = "Accessories"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedBy = "admin",
                             Name = "Electronics"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedBy = "admin",
                             Name = "Kitchen"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedBy = "admin",
                             Name = "Cars"
                         });
                 });
@@ -139,7 +137,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "A high-end smartphone with amazing features",
                             Name = "Smartphone XYZ",
                             Price = 799.00m,
@@ -149,7 +146,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedBy = "admin",
                             Description = "A premium leather jacket for winter",
                             Name = "Stylish Leather Jacket",
                             Price = 120.00m,
@@ -159,7 +155,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "Noise-canceling wireless headphones",
                             Name = "Bluetooth Headphones",
                             Price = 150.00m,
@@ -169,7 +164,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 1,
-                            CreatedBy = "admin",
                             Description = "A cozy winter jacket to keep you warm",
                             Name = "Winter Jacket",
                             Price = 80.00m,
@@ -179,7 +173,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 5,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "A smartwatch with fitness tracking and notifications",
                             Name = "Smart Watch",
                             Price = 200.00m,
@@ -189,7 +182,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 6,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "Ultra HD LED TV with smart features",
                             Name = "LED TV",
                             Price = 500.00m,
@@ -199,7 +191,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 7,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Fast boiling electric kettle for quick tea or coffee",
                             Name = "Electric Kettle",
                             Price = 30.00m,
@@ -209,7 +200,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 8,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Energy-efficient fridge with large capacity",
                             Name = "Refrigerator",
                             Price = 800.00m,
@@ -219,7 +209,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 9,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "Water-resistant portable Bluetooth speaker",
                             Name = "Portable Speaker",
                             Price = 90.00m,
@@ -229,7 +218,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 10,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Healthy cooking with this modern air fryer",
                             Name = "Air Fryer",
                             Price = 150.00m,
@@ -239,7 +227,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 11,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Sonic electric toothbrush for cleaner teeth",
                             Name = "Electric Toothbrush",
                             Price = 60.00m,
@@ -249,7 +236,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 12,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "High-quality digital camera for photography enthusiasts",
                             Name = "Digital Camera",
                             Price = 400.00m,
@@ -259,7 +245,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 13,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "Ergonomic gaming mouse with customizable buttons",
                             Name = "Gaming Mouse",
                             Price = 50.00m,
@@ -269,7 +254,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 14,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Adjustable desk lamp with LED lighting",
                             Name = "LED Desk Lamp",
                             Price = 40.00m,
@@ -279,7 +263,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 15,
                             CategoryId = 5,
-                            CreatedBy = "admin",
                             Description = "Magnetic phone mount for easy car navigation",
                             Name = "Car Phone Mount",
                             Price = 20.00m,
@@ -289,7 +272,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 16,
                             CategoryId = 5,
-                            CreatedBy = "admin",
                             Description = "Spacious 4-person camping tent with waterproof design",
                             Name = "Camping Tent",
                             Price = 120.00m,
@@ -299,7 +281,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 17,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Wi-Fi enabled smart thermostat for energy savings",
                             Name = "Smart Thermostat",
                             Price = 250.00m,
@@ -309,7 +290,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 18,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "High-capacity portable power bank for smartphones",
                             Name = "Portable Charger",
                             Price = 40.00m,
@@ -319,7 +299,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 19,
                             CategoryId = 1,
-                            CreatedBy = "admin",
                             Description = "Durable and spacious backpack for laptops and accessories",
                             Name = "Laptop Backpack",
                             Price = 40.00m,
@@ -329,7 +308,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 20,
                             CategoryId = 1,
-                            CreatedBy = "admin",
                             Description = "Sleek modern wall clock with a minimal design",
                             Name = "Wall Clock",
                             Price = 25.00m,
@@ -339,7 +317,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 21,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Professional blow dryer with multiple heat settings",
                             Name = "Hair Dryer",
                             Price = 70.00m,
@@ -349,7 +326,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 22,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Blend your smoothies on the go with this portable blender",
                             Name = "Portable Blender",
                             Price = 45.00m,
@@ -359,7 +335,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 23,
                             CategoryId = 5,
-                            CreatedBy = "admin",
                             Description = "Portable camping stove for outdoor cooking",
                             Name = "Camping Stove",
                             Price = 70.00m,
@@ -369,7 +344,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 24,
                             CategoryId = 3,
-                            CreatedBy = "admin",
                             Description = "Wearable fitness tracker to monitor daily activities",
                             Name = "Fitness Tracker",
                             Price = 130.00m,
@@ -379,7 +353,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 25,
                             CategoryId = 1,
-                            CreatedBy = "admin",
                             Description = "Ergonomic gaming chair with adjustable armrests",
                             Name = "Gaming Chair",
                             Price = 180.00m,
@@ -389,7 +362,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 26,
                             CategoryId = 5,
-                            CreatedBy = "admin",
                             Description = "Eco-friendly solar charger for your devices",
                             Name = "Solar Charger",
                             Price = 35.00m,
@@ -399,7 +371,6 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 27,
                             CategoryId = 4,
-                            CreatedBy = "admin",
                             Description = "Home air purifier with HEPA filter for cleaner air",
                             Name = "Air Purifier",
                             Price = 150.00m,
@@ -431,8 +402,8 @@ namespace StockManagement.Data.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -446,16 +417,12 @@ namespace StockManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Username")
-                        .IsUnique();
-
                     b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedBy = "admin",
                             Password = "admin123",
                             Role = "Admin",
                             Username = "admin"
@@ -463,7 +430,6 @@ namespace StockManagement.Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedBy = "admin",
                             Password = "user123",
                             Role = "User",
                             Username = "user"

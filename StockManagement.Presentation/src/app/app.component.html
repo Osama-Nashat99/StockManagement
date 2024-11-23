@@ -1,4 +1,48 @@
+<div class="sidebar" #sidebar>
+  <div class="logo-details">
+    <span class="logo_name">Stock Manager</span>
+  </div>
+  <ul class="nav-links">
+    <li>
+      <a routerLink="/products" routerLinkActive="active">
+        <i class="bi bi-bag"></i>
+        <span class="link_name">Products</span>
+      </a>
+    </li>
 
-<router-outlet />        
+    <li>
+      <a routerLink="/categories" routerLinkActive="active">
+        <i class="bi bi-collection"></i>
+        <span class="link_name">Categories</span>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/users" routerLinkActive="active">
+        <i class="bi bi-people"></i>
+        <span class="link_name">Users</span>
+      </a>
+    </li>
+
+    <!-- <div class="profile-details">
+      <i class="bi bi-box-arrow-left"></i>
+    </div> -->
+  </ul>
+</div>
+<section class="home-section">
+  <div class="home-nav" >
+    <!-- <i class="bi bi-list" (click)="toggleSidebar()"></i> -->
+    <span></span>
+    <div class="profile-name-container">
+      <div class="profile_name">Osama Nashat</div>
+      <div class="profile-dropdown rounded-2">
+        <button class="btn btn-white btn-sm text-nowrap ms-2" (click)="logout()"><i class="bi bi-box-arrow-left pe-2"></i> Logout</button>
+      </div>
+    </div>
+  </div>
+  <div class="p-3">
+    <router-outlet />
+  </div>
+</section>
 
 

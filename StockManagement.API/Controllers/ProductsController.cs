@@ -17,98 +17,62 @@ namespace StockManagement.API.Controllers
             _productService = productService;
         }
 
-        // GET: api/products
-        [Authorize]
-        [HttpGet]
-        public IActionResult Get([FromQuery] string? name, [FromQuery] string? description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        [HttpPost("fetch")]
+        public IActionResult FetchProducts([FromBody] FilterProductsDto filterProductsDto)
         {
-            try
-            {
-                var result = _productService.FetchProducts(name, description, pageNumber, pageSize);
+            var result = _productService.FetchProducts(filterProductsDto.PageNumber, filterProductsDto.PageSize, filterProductsDto.SearchFilter, filterProductsDto.SortBy, filterProductsDto.SortDirection);
 
-                if (result.isSuccess == false)
-                    return StatusCode(result.code.GetHashCode(), result.message);
+            if (result.isSuccess == false)
+                return StatusCode(result.code.GetHashCode(), result.message);
 
-                return Ok(ProductsMapper.ToProductDto(result.value));
-            }
-            catch (Exception ex) { 
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            return Ok(ProductsMapper.ToProductDto(result.value));
         }
 
-        // GET api/product/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try
-            {
-                var result = _productService.GetProductById(id);
+            var result = _productService.GetProductById(id);
 
-                if (result.isSuccess == false)
-                    return StatusCode(result.code.GetHashCode(), result.message);
+            if (result.isSuccess == false)
+                return StatusCode(result.code.GetHashCode(), result.message);
 
-                return Ok(ProductsMapper.ToProductDto(result.value));
-            }
-            catch (Exception ex) {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            return Ok(ProductsMapper.ToProductDto(result.value));
         }
 
-        // POST api/products
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] ProductDto product)
         {
-            try
-            {
-                var result = _productService.AddProduct(ProductsMapper.ToProductEntity(product));
+            var result = _productService.AddProduct(ProductsMapper.ToProductEntity(product));
 
-                if (result.isSuccess == false)
-                    return StatusCode(result.code.GetHashCode(), result.message);
+            if (result.isSuccess == false)
+                return StatusCode(result.code.GetHashCode(), result.message);
 
-                return Ok(ProductsMapper.ToProductDto(result.value));
-            }
-            catch (Exception ex) {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            return Ok(ProductsMapper.ToProductDto(result.value));
         }
 
-        // PUT api/products/5
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ProductDto product)
         {
-            try
-            {
-                var result = _productService.UpdateProduct(id, ProductsMapper.ToProductEntity(product));
+            var result = _productService.UpdateProduct(id, ProductsMapper.ToProductEntity(product));
 
-                if (result.isSuccess == false)
-                    return StatusCode(result.code.GetHashCode(), result.message);
+            if (result.isSuccess == false)
+                return StatusCode(result.code.GetHashCode(), result.message);
 
-                return Ok(ProductsMapper.ToProductDto(result.value));
-            }
-            catch (Exception ex) {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            return Ok(ProductsMapper.ToProductDto(result.value));
         }
 
-        // DELETE api/<ProductsController>/5
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            try
-            {
-                var result = _productService.DeleteProduct(id);
+            var result = _productService.DeleteProduct(id);
 
-                if (result.isSuccess == false)
-                    return StatusCode(result.code.GetHashCode(), result.message);
+            if (result.isSuccess == false)
+                return StatusCode(result.code.GetHashCode(), result.message);
 
-                return Ok(ProductsMapper.ToProductDto(result.value));
-            }
-            catch (Exception ex) {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            return Ok(ProductsMapper.ToProductDto(result.value));
         }
     }
 }

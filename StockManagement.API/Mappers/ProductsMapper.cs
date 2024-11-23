@@ -18,7 +18,7 @@ namespace StockManagement.API.Mappers
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
-                Category = p.Category,
+                CategoryId = p.CategoryId,
                 Price = p.Price,
                 Quantity = p.Quantity
             });
@@ -33,7 +33,7 @@ namespace StockManagement.API.Mappers
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Category = product.Category,
+                CategoryId = product.CategoryId,
                 Price = product.Price,
                 Quantity = product.Quantity
             };
@@ -45,7 +45,7 @@ namespace StockManagement.API.Mappers
             {
                 Name = dto.Name,
                 Description = dto.Description,
-                Category = dto.Category,
+                CategoryId = dto.CategoryId,
                 Price = dto.Price,
                 Quantity = dto.Quantity
             };

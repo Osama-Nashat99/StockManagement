@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FetchProducts } from '../models/FetchProducts.model';
 import { Product } from '../models/Product.model';
+import { Filter } from '../models/Filter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,21 +18,8 @@ export class ProductService {
     return this.http.get<Product>(`${this.baseUrl}/products/${productId}`);
   }
 
-  fetchAll(pageNumber: number, pageSize: number, nameFilter?: string, descFilter?: string): Observable<FetchProducts> {
-    let params = new HttpParams();
-
-    if (nameFilter) {
-      params = params.set('name', nameFilter);
-    }
-
-    if (descFilter) {
-      params = params.set('description', descFilter);
-    }
-
-    params = params.set('pageSize', pageSize.toString());
-    params = params.set('pageNumber', pageNumber.toString());
-
-    return this.http.get<FetchProducts>(`${this.baseUrl}/products`, {params});
+  fetchAll(filter: Filter): Observable<FetchProducts> {
+    return this.http.post<FetchProducts>(`${this.baseUrl}/products/fetch`, filter);
   }
 
   createProduct(product: Product): Observable<Product> {

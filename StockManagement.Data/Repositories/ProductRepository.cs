@@ -2,6 +2,8 @@
 using StockManagement.Domain.Entities;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
+using System.Globalization;
+using System.Linq.Expressions;
 
 namespace StockManagement.Data.Repositories
 {
@@ -14,30 +16,69 @@ namespace StockManagement.Data.Repositories
             _db = applicationDbContext;
         }
 
-        public async Task<FetchProductsModel> FetchAsync(string name, string description, int pageNumber = 1, int pageSize = 10)
+        //public async Task<FetchProductsModel> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
+        //{
+        //    FetchProductsModel model = new FetchProductsModel();
+
+        //    model.Products = _db.products.AsQueryable();
+
+        //    model.TotalProducts = model.Products.Count();
+
+        //    if (!string.IsNullOrEmpty(searchFilter))
+        //    {
+        //        model.Products = model.Products.Where(p =>
+        //                (!string.IsNullOrEmpty(p.Name) && p.Name.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) ||
+        //                (!string.IsNullOrEmpty(p.Description) && p.Description.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+        //            ).ToList();
+        //    }
+
+        //    model.TotalProducts = model.Products.Count();
+
+        //    model.Products = sortDirection.ToLower() == "asc"
+        //    ? model.Products.OrderBy(e => EF.Property<object>(e, sortBy))
+        //    : model.Products.OrderByDescending(e => EF.Property<object>(e, sortBy));
+
+        //    model.Products = model.Products
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToList();
+
+        //    return model;
+        //}
+
+        public async Task<FetchProductsModel> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
         {
             FetchProductsModel model = new FetchProductsModel();
 
-            model.Products = await _db.products.AsNoTracking().ToListAsync();
+            IQueryable<Product> productsQuery = _db.products.AsQueryable();
 
-            if (!string.IsNullOrEmpty(name))
+            model.TotalProducts = await productsQuery.CountAsync();
+
+            if (!string.IsNullOrEmpty(searchFilter))
             {
-                model.Products = model.Products.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                productsQuery = productsQuery.Where(p =>
+                    (p.Name != null && p.Name.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) ||
+                    (p.Description != null && p.Description.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                );
             }
 
-            if (!string.IsNullOrEmpty(description))
-            {
-                model.Products = model.Products.Where(p => !string.IsNullOrEmpty(p.Description) && p.Description.Contains(description, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
+            var parameter = Expression.Parameter(typeof(Product), "p");
+            var property = Expression.Property(parameter, sortBy);
+            var lambda = Expression.Lambda<Func<Product, object>>(Expression.Convert(property, typeof(object)), parameter);
 
-            model.TotalProducts = model.Products.Count();
+            productsQuery = sortDirection.ToLower() == "asc"
+                ? productsQuery.OrderBy(lambda)
+                : productsQuery.OrderByDescending(lambda);
 
-            model.Products = model.Products
+            var productsList = await productsQuery
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
+
+            model.Products = productsList;
 
             return model;
+
         }
 
         public async Task<Product> GetByIdAsync(int id)

@@ -1,7 +1,11 @@
-hr {
-    border-top: 1px solid #aaa;
-}
-
 input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
     border: 1px solid #fd6482
+}
+
+input, textarea, select {
+  background-color: #fafafa;
+}
+
+label span {
+  color: #fd6482;
 }

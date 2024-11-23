@@ -17,9 +17,9 @@ namespace StockManagement.Domain.Services
             _validator = productValidator;
         }
 
-        public Result<FetchProductsModel> FetchProducts(string name, string description, int pageNumber = 1, int pageSize = 10)
+        public Result<FetchProductsModel> FetchProducts(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
         {
-            FetchProductsModel productsModel = _productRepository.FetchAsync(name, description, pageNumber, pageSize).Result;
+            FetchProductsModel productsModel = _productRepository.FetchAsync(pageNumber, pageSize, searchFilter, sortBy, sortDirection).Result;
 
             if (productsModel == null)
                 return Result<FetchProductsModel>.Failure("Could not fetch products", HttpStatusCode.InternalServerError);

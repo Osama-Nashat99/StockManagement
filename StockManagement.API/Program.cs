@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StockManagement.API.Middlewares;
 using StockManagement.Data;
 using StockManagement.Data.Repositories;
 using StockManagement.Domain.Interfaces;
@@ -90,6 +91,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontendOrigin");
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

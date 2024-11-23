@@ -1,61 +1,55 @@
-<app-header></app-header>
+  <div>
+      <div class="d-flex justify-content-between align-items-center">
+        <h4>Edit Product</h4>
+        <a class="btn btn-light btn-sm px-3 py-2 fw-bold text-nowrap" routerLink="/products"><i class="bi bi-arrow-return-left pe-2"></i> Return to Products</a>
+      </div>
+      <form class="bg-white p-3 rounded-3" (ngSubmit)="onUpdateProduct()" [formGroup]="updateProductForm">
+          <div class="row">
+              <div class="mb-3 col-md-6">
+                  <label for="name" class="form-label">Name <span>*</span></label>
+                  <input formControlName="name" type="text" class="form-control" id="name" placeholder="Product Name">
+                  <span class="validation-message" *ngIf="name.invalid && name.touched">
+                      Please provide a valid product name.
+                  </span>
+              </div>
 
-<div class="container">
-    <div class="row">
-        <div class="mt-4 p-3 col-12">
-            <div class="d-flex justify-content-between align-items-center">
-              <h4>Edit Product</h4>
-              <a class="btn btn-primary btn-sm" routerLink="/products">Return to Products</a>
-            </div>
-            <hr>
-            <form (ngSubmit)="onUpdateProduct()" [formGroup]="updateProductForm">
-                <div class="row">
-                    <div class="mb-3 col-md-6">
-                        <label for="name" class="form-label">Name</label>
-                        <input formControlName="name" type="text" class="form-control" id="name" placeholder="Product Name">
-                        <span class="validation-message" *ngIf="name.invalid && name.touched">
-                            Please provide a valid product name.
-                        </span>
-                    </div>
-        
-                    <div class="mb-3 col-md-6">
-                        <label for="category" class="form-label">Category</label>
-                        <select formControlName="category" class="form-select">
-                            <option *ngFor="let c of categories" [value]="c.value">{{c.label}}</option>
-                        </select>
-                    </div>
-                </div>
-        
-                <div class="row">
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Product Description"></textarea>
-                        <span class="validation-message" *ngIf="description.invalid && description.touched">
-                            Please provide a valid product description.
-                        </span>
-                    </div>
-                </div>
-        
-                <div class="row">
-                    <div class="mb-3 col-md-6">
-                        <label for="price" class="form-label">Price</label>
-                        <input formControlName="price" type="number" class="form-control" id="price">
-                        <span class="validation-message" *ngIf="price.invalid && price.touched">
-                            Please provide a valid product price.
-                        </span>
-                    </div>
-        
-                    <div class="mb-3 col-md-6">
-                        <label for="quantity" class="form-label">Quantity</label>
-                        <input formControlName="quantity" type="number" class="form-control" id="quantity">
-                        <span class="validation-message" *ngIf="quantity.invalid && quantity.touched">
-                            Please provide a valid product quantity.
-                        </span>
-                    </div>
-                </div>
-        
-                <button class="btn btn-primary me-2" type="submit" [disabled]="updateProductForm.invalid">Update</button>
-            </form>
-        </div>        
-    </div>
-</div>
+              <div class="mb-3 col-md-6">
+                  <label for="category" class="form-label">Category <span>*</span></label>
+                  <select formControlName="category" class="form-select">
+                      <option *ngFor="let c of categories" [value]="c.value">{{c.label}}</option>
+                  </select>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="mb-3">
+                  <label for="description" class="form-label">Description <span>*</span></label>
+                  <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Product Description"></textarea>
+                  <span class="validation-message" *ngIf="description.invalid && description.touched">
+                      Please provide a valid product description.
+                  </span>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="mb-3 col-md-6">
+                  <label for="price" class="form-label">Price <span>*</span></label>
+                  <input formControlName="price" type="number" class="form-control" id="price">
+                  <span class="validation-message" *ngIf="price.invalid && price.touched">
+                      Please provide a valid product price.
+                  </span>
+              </div>
+
+              <div class="mb-3 col-md-6">
+                  <label for="quantity" class="form-label">Quantity <span>*</span></label>
+                  <input formControlName="quantity" type="number" class="form-control" id="quantity">
+                  <span class="validation-message" *ngIf="quantity.invalid && quantity.touched">
+                      Please provide a valid product quantity.
+                  </span>
+              </div>
+          </div>
+
+          <button class="btn btn-primary me-2" type="submit" [disabled]="updateProductForm.invalid">Update</button>
+      </form>
+  </div>
+
