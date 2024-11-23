@@ -72,6 +72,8 @@ builder.Services.AddAuthentication(options => {
     };
 });
 
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
