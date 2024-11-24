@@ -19,8 +19,9 @@ namespace StockManagement.Domain.Validators
             if (string.IsNullOrEmpty(product.Name))
                 return Result<Product>.Failure("Product name is required", HttpStatusCode.BadRequest);
 
-            if (!Enum.IsDefined(typeof(Categories), product.Category))
-                return Result<Product>.Failure("Product category is not defined", HttpStatusCode.BadRequest);
+            //var category = _categoryRepository.Get(product.CategoryId).FirstOrDefault();
+            //if (category == null)
+            //    return Result<Product>.Failure("Product category is not defined", HttpStatusCode.BadRequest);
 
             if (product.Price < 0)
                 return Result<Product>.Failure("Product price should be greater than 0", HttpStatusCode.BadRequest);
@@ -42,8 +43,9 @@ namespace StockManagement.Domain.Validators
             if (string.IsNullOrEmpty(product.Name))
                 return Result<Product>.Failure("Product name is required", HttpStatusCode.BadRequest);
 
-            if (!Enum.IsDefined(typeof(Categories), product.Category))
-                return Result<Product>.Failure("Product category is not defined", HttpStatusCode.BadRequest);
+            //var category = _categoryRepository.Get(product.CategoryId).FirstOrDefault();
+            //if (category == null)
+            //    return Result<Product>.Failure("Product category is not defined", HttpStatusCode.BadRequest);
 
             if (product.Price < 0)
                 return Result<Product>.Failure("Product price should be greater than 0", HttpStatusCode.BadRequest);

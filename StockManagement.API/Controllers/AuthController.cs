@@ -25,7 +25,7 @@ namespace StockManagement.API.Controllers
                 if (result.isSuccess == false)
                     return StatusCode(result.code.GetHashCode(), result.message);
 
-                return Ok(new { Token = result.value });
+                return Ok(result.value);
             }
             catch (Exception ex)
             {

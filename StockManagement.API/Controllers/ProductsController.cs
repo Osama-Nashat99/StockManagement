@@ -18,9 +18,9 @@ namespace StockManagement.API.Controllers
         }
 
         [HttpPost("fetch")]
-        public IActionResult FetchProducts([FromBody] FilterProductsDto filterProductsDto)
+        public IActionResult FetchProducts([FromBody] FilterDto filterProductsDto)
         {
-            var result = _productService.FetchProducts(filterProductsDto.PageNumber, filterProductsDto.PageSize, filterProductsDto.SearchFilter, filterProductsDto.SortBy, filterProductsDto.SortDirection);
+            var result = _productService.FetchProducts(filterProductsDto.PageNumber, filterProductsDto.PageSize, filterProductsDto.Search, filterProductsDto.SortBy, filterProductsDto.SortDirection);
 
             if (result.isSuccess == false)
                 return StatusCode(result.code.GetHashCode(), result.message);
@@ -48,7 +48,7 @@ namespace StockManagement.API.Controllers
             if (result.isSuccess == false)
                 return StatusCode(result.code.GetHashCode(), result.message);
 
-            return Ok(ProductsMapper.ToProductDto(result.value));
+            return Ok(ProductsMapper.ToAddProductDto(result.value));
         }
 
         [Authorize(Roles = "Admin")]
@@ -60,7 +60,7 @@ namespace StockManagement.API.Controllers
             if (result.isSuccess == false)
                 return StatusCode(result.code.GetHashCode(), result.message);
 
-            return Ok(ProductsMapper.ToProductDto(result.value));
+            return Ok(ProductsMapper.ToAddProductDto(result.value));
         }
 
         [Authorize(Roles = "Admin")]

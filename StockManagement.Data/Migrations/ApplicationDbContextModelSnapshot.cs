@@ -51,7 +51,7 @@ namespace StockManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("categories", (string)null);
 
                     b.HasData(
                         new
@@ -423,6 +423,19 @@ namespace StockManagement.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsFirstLogin")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -434,10 +447,9 @@ namespace StockManagement.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
+                    b.Property<int>("Role")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -456,16 +468,22 @@ namespace StockManagement.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "admin",
-                            Password = "admin123",
-                            Role = "Admin",
+                            FirstName = "admin",
+                            IsFirstLogin = false,
+                            LastName = "admin",
+                            Password = "AQAAAAIAAYagAAAAEMWCsWXMB6pQR19hYOn2kH10bkv7Z8S+onHAVRuwrSIRQCasriJyD/ygGb/BIpc6Ig==",
+                            Role = 1,
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
                             CreatedBy = "admin",
-                            Password = "user123",
-                            Role = "User",
+                            FirstName = "user",
+                            IsFirstLogin = false,
+                            LastName = "user",
+                            Password = "AQAAAAIAAYagAAAAEOxpjpkjDJgvOtgjUUSz45heA7vI2dfx7hKN+raYatQGtanFM+L7WusgiRyU/uiHIA==",
+                            Role = 2,
                             Username = "user"
                         });
                 });

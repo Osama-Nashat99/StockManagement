@@ -18,8 +18,12 @@
                     <div class="mb-3 col-md-6">
                         <label for="category" class="form-label">Category <span>*</span></label>
                         <select formControlName="category" class="form-select">
-                            <option *ngFor="let c of categories" [value]="c.value">{{c.label}}</option>
+                            <option value="">Select</option>
+                            <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
                         </select>
+                        <span class="validation-message" *ngIf="category.invalid && category.touched">
+                            Please select a category.
+                        </span>
                     </div>
                 </div>
 

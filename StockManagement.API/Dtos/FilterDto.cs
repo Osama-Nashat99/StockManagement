@@ -1,12 +1,12 @@
 ﻿namespace StockManagement.API.Dtos
 {
-    public class FilterProductsDto
+    public class FilterDto
     {
         public int PageSize { get; set; }
 
         public int PageNumber { get; set; }
 
-        public string SearchFilter { get; set; } = string.Empty;
+        public string Search { get; set; } = string.Empty;
 
         public string SortBy {  get; set; } = string.Empty;
 

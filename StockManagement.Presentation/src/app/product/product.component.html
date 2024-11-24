@@ -65,7 +65,7 @@
               <th scope="row">{{product.id}}</th>
               <td>{{product.name}}</td>
               <td>{{product.description}}</td>
-              <td>{{getCategoryName(product.category)}}</td>
+              <td>{{product.categoryName}}</td>
               <td><i class="bi bi-currency-dollar"></i>{{product.price}}</td>
               <td>{{product.quantity}}</td>
               <td *ngIf="isAdmin()"><a [routerLink]="'edit/' + product.id"><i class="bi bi-pencil"></i></a></td>

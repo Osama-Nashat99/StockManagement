@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Domain.Entities;
 using StockManagement.Domain.Interfaces;
+using StockManagement.Domain.Models;
+using System.Linq.Expressions;
 
 namespace StockManagement.Data.Repositories
 {
@@ -16,12 +18,74 @@ namespace StockManagement.Data.Repositories
             _passwordHasher = new PasswordHasher<User>();
         }
 
+        public async Task<FetchUsersModel> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
+        {
+            FetchUsersModel model = new FetchUsersModel();
+
+            IQueryable<User> usersQuery = _db.users.AsQueryable();
+
+            model.TotalUsers = await usersQuery.CountAsync();
+
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                usersQuery = usersQuery.Where(u =>
+                    (u.Username != null && EF.Functions.Like(u.Username, $"%{searchFilter}%"))
+                );
+            }
+
+            var parameter = Expression.Parameter(typeof(User), "u");
+            var property = Expression.Property(parameter, sortBy);
+            var lambda = Expression.Lambda<Func<User, object>>(Expression.Convert(property, typeof(object)), parameter);
+
+            usersQuery = sortDirection.ToLower() == "asc"
+                ? usersQuery.OrderBy(lambda)
+                : usersQuery.OrderByDescending(lambda);
+
+            var usersList = await usersQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            model.Users = usersList;
+
+            return model;
+
+        }
+
         public async Task<User> Get(string username, string password)
         {
             return await _db.users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
         }
 
-        // to verify user on login
+        public async Task<User> GetByUsername(string username)
+        {
+            return await _db.users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
+        }
+
+        public async Task<User> Create(User user)
+        {
+            user.Password = "pass123";
+            user.Password = _passwordHasher.HashPassword(user, user.Password);
+            user.IsFirstLogin = true;
+            await _db.users.AddAsync(user);
+            await _db.SaveChangesAsync();
+            return user;
+        }
+
+        public User UpdatePassword(int id, string password)
+        {
+            User user = _db.users.Find(id);
+
+            if (user == null)
+                return user;
+
+            user.Password = _passwordHasher.HashPassword(user, password);
+            user.IsFirstLogin = false;
+            _db.Update(user);
+            _db.SaveChanges();
+            return user;
+        }
+
         public bool VerifyPassword(User user, string enteredPassword)
         {
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, enteredPassword);

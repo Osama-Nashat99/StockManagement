@@ -19,6 +19,7 @@ namespace StockManagement.API.Mappers
                 Name = p.Name,
                 Description = p.Description,
                 CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name,
                 Price = p.Price,
                 Quantity = p.Quantity
             });
@@ -29,6 +30,20 @@ namespace StockManagement.API.Mappers
         public static ProductDto ToProductDto(Product product) 
         {
             return new ProductDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                CategoryName = product.Category.Name,
+                Price = product.Price,
+                Quantity = product.Quantity
+            };
+        }
+
+        public static AddProductDto ToAddProductDto(Product product)
+        {
+            return new AddProductDto()
             {
                 Id = product.Id,
                 Name = product.Name,

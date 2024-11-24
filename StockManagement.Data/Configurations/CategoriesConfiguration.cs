@@ -8,19 +8,12 @@ namespace StockManagement.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasKey(c => c.Id);
-
-            builder.Property(c => c.Name).HasMaxLength(200).IsRequired(true);
-
+            builder.HasKey(u => u.Id);
+            builder.Property("Name").HasMaxLength(200).IsRequired(true);
             builder.Property("CreatedDate").HasDefaultValueSql("GETDATE()");
-
             builder.Property("CreatedBy").IsRequired(false);
-
             builder.Property("ModifiedDate").IsRequired(false);
-
             builder.Property("ModifiedBy").IsRequired(false);
-
-            builder.ToTable("Categories");
 
             LoadCategories(builder);
         }

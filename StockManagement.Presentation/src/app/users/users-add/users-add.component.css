@@ -1,13 +1,13 @@
 input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
-  border: 1px solid #fd6482
+    border: 1px solid #fd6482
 }
 
 input, textarea, select {
-background-color: #fafafa;
+  background-color: #fafafa;
 }
 
 label span {
-color: #fd6482;
+  color: #fd6482;
 }
 
 input,
@@ -16,5 +16,5 @@ textarea,
 textarea::placeholder,
 select,
 select::placeholder {
-  font-size: 14px;
+    font-size: 14px;
 }

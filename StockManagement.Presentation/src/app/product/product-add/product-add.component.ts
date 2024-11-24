@@ -6,6 +6,9 @@ import { ProductService } from '../../../services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { HeaderComponent } from '../../header/header.component';
+import { Product } from '../../../models/Product.model';
+import { CategoryService } from '../../../services/category.service';
+import { Category } from '../../../models/Category.model';
 
 @Component({
   selector: 'app-product-add',
@@ -15,18 +18,19 @@ import { HeaderComponent } from '../../header/header.component';
   styleUrl: './product-add.component.css'
 })
 export class ProductAddComponent implements OnInit {
-  categories: {value: number, label: String}[] = [];
+  categories: Category[] = [];
 
-  constructor(private productService: ProductService, private router: Router, private snackBar: MatSnackBar) {}
+  constructor(private productService: ProductService, private categoryService: CategoryService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.categories = this.getCategoryOptions();
+    this.categoryService.GetAll()
+      .subscribe(categories => { this.categories = categories});
   }
 
   createProductForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
     description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
-    category: new FormControl(0),
+    category: new FormControl("", [Validators.required]),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     quantity: new FormControl(0, [Validators.required, Validators.min(0)])
   });
@@ -39,9 +43,18 @@ export class ProductAddComponent implements OnInit {
 
   onCreateProduct(){
     const formValues = this.createProductForm.value;
-    formValues.category = parseInt(formValues.category);
 
-    this.productService.createProduct(formValues)
+    var product: Product = {
+      id: 0,
+      name: formValues.name,
+      description: formValues.description,
+      categoryId: parseInt(formValues.category),
+      categoryName: "",
+      price: formValues.price,
+      quantity: formValues.quantity
+    };
+
+    this.productService.createProduct(product)
           .subscribe(product => {
             if (product.id > 0){
               this.snackBar.open('Product has been created successfuly', 'Done', {
@@ -51,19 +64,5 @@ export class ProductAddComponent implements OnInit {
               this.router.navigate(['/products']);
             }
           });
-  }
-
-  private getCategoryOptions(): {value: number, label: String}[] {
-    var categoriesArray = [];
-
-    for (const c in category){
-      if (isNaN(Number(c))) {
-        categoriesArray.push(
-          { value: category[c as keyof typeof category], label: c }
-        );
-      }
-    };
-
-    return categoriesArray;
   }
 }

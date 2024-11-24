@@ -50,7 +50,7 @@ export class AuthService {
 
   isAdmin(): boolean {
     const decodedToken = this.decodeToken();
-    return decodedToken && decodedToken.sub === 'admin';
+    return decodedToken && decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === '1';
   }
 
 

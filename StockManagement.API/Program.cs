@@ -78,9 +78,13 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ProductValidator>();
+builder.Services.AddTransient<UserValidator>();
 builder.Services.AddTransient<ProductService>();
+builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<CategoryService>();
 
 var app = builder.Build();
 

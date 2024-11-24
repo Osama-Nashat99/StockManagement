@@ -1,14 +1,11 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using StockManagement.Domain.Entities;
 using StockManagement.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
+using StockManagement.Domain.Models;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StockManagement.Domain.Services
 {
@@ -22,17 +19,25 @@ namespace StockManagement.Domain.Services
             _userRepository = userRepository;
         }
 
-        public Result<string> Authorize(string username, string password)
+        public Result<LoginResponseModel> Authorize(string username, string password)
         {
-            User user = _userRepository.Get(username, password).Result;
+            User user = _userRepository.GetByUsername(username).Result;
 
             if (user == null)
-            {
-                return Result<string>.Failure("invalid credentials", HttpStatusCode.Unauthorized);
-            }
+                return Result<LoginResponseModel>.Failure("invalid credentials", HttpStatusCode.Unauthorized);
+
+            if (_userRepository.VerifyPassword(user, password) == false)
+                return Result<LoginResponseModel>.Failure("invalid credentials", HttpStatusCode.Unauthorized);
 
             string token = GenerateJwtToken(user);
-            return Result<string>.Success(token);
+
+            LoginResponseModel model = new LoginResponseModel
+            {
+                IsFirstLogin = user.IsFirstLogin,
+                Token = token
+            };
+
+            return Result<LoginResponseModel>.Success(model);
         }
 
         private string GenerateJwtToken(User user)
@@ -43,7 +48,7 @@ namespace StockManagement.Domain.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role.GetHashCode().ToString())
             };
 
             var token = new JwtSecurityToken(
