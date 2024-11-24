@@ -9,9 +9,9 @@ import { User } from "../models/User.model";
     providedIn: 'root'
   })
   export class UserService {
-  
+
     constructor(private http: HttpClient) { }
-  
+
     baseUrl: string = 'https://localhost:7092/api';
 
     fetchAll(filter: Filter): Observable<FetchUsers> {
@@ -23,7 +23,7 @@ import { User } from "../models/User.model";
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       });
-  
+
       return this.http.post<User>(`${this.baseUrl}/users`, user, {headers})
     }
   }
