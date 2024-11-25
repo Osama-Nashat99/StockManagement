@@ -6,5 +6,5 @@ export interface Product {
     categoryId: number,
     categoryName: string,
     price: number,
-    quantity: number
+    serialNumber: string | null
 };

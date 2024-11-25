@@ -21,8 +21,10 @@ export class AuthService {
     return this.http.post<any>(this.baseUrl, loginPayload);
   }
 
-  storeToken(token: string) {
+  storeTokenAndUserInfo(token: string, fullName: string, userId: string) {
     localStorage.setItem('jwtToken', token);
+    localStorage.setItem('uesrFullName', fullName);
+    localStorage.setItem("userId", userId);
     this.currentUserSubject.next(token);
   }
 
@@ -34,8 +36,18 @@ export class AuthService {
     return localStorage.getItem('jwtToken');
   }
 
+  getUserFullName(): string | null {
+    return localStorage.getItem('uesrFullName');
+  }
+
+  getUserId(): number {
+    return parseInt(localStorage.getItem('userId') ?? '0') ;
+  }
+
   logout() {
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('uesrFullName');
+    localStorage.removeItem('userId');
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }

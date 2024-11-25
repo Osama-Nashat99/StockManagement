@@ -27,19 +27,19 @@ export class ProductEditComponent implements OnInit {
     description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
     category: new FormControl("", Validators.required),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
-    quantity: new FormControl(0, [Validators.required, Validators.min(0)])
+    serialNumber: new FormControl(null, Validators.maxLength(500))
   });
 
   name = this.updateProductForm.controls['name'];
   category = this.updateProductForm.controls['category'];
   description = this.updateProductForm.controls['description'];
   price = this.updateProductForm.controls['price'];
-  quantity = this.updateProductForm.controls['quantity'];
+  serialNumber = this.updateProductForm.controls['serialNumber'];
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.params['id'];
 
-    this.categoryService.GetAll()
+    this.categoryService.getAll()
       .subscribe(categories => { this.categories = categories});
 
     this.productService.getProduct(this.productId)
@@ -48,7 +48,7 @@ export class ProductEditComponent implements OnInit {
         this.description.setValue(product.description);
         this.category.setValue(product.categoryId);
         this.price.setValue(product.price);
-        this.quantity.setValue(product.quantity);
+        this.serialNumber.setValue(product.serialNumber);
       })
   }
 
@@ -62,7 +62,7 @@ export class ProductEditComponent implements OnInit {
       categoryId: parseInt(formValues.category),
       categoryName: "",
       price: formValues.price,
-      quantity: formValues.quantity
+      serialNumber: formValues.serialNumber
     };
     
 

@@ -4,6 +4,7 @@ import { Filter } from "../models/Filter.model";
 import { Observable } from "rxjs";
 import { FetchUsers } from "../models/FetchUsers.model";
 import { User } from "../models/User.model";
+import { ResetPassword } from "../models/ResetPassword.model";
 
 @Injectable({
     providedIn: 'root'
@@ -25,5 +26,14 @@ import { User } from "../models/User.model";
       });
 
       return this.http.post<User>(`${this.baseUrl}/users`, user, {headers})
+    }
+
+    resetPassword(id: number, resetPassword: ResetPassword){
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      });
+
+      return this.http.put<User>(`${this.baseUrl}/users/reset/${id}`, resetPassword, {headers})
     }
   }

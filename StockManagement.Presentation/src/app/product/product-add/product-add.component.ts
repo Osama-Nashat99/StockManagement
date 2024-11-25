@@ -1,6 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { category } from '../../../enums/category.enum';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +22,7 @@ export class ProductAddComponent implements OnInit {
   constructor(private productService: ProductService, private categoryService: CategoryService, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.categoryService.GetAll()
+    this.categoryService.getAll()
       .subscribe(categories => { this.categories = categories});
   }
 
@@ -32,18 +31,19 @@ export class ProductAddComponent implements OnInit {
     description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
     category: new FormControl("", [Validators.required]),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
-    quantity: new FormControl(0, [Validators.required, Validators.min(0)])
+    serialNumber: new FormControl("", Validators.maxLength(500))
   });
 
   name = this.createProductForm.controls['name'];
   category = this.createProductForm.controls['category'];
   description = this.createProductForm.controls['description'];
   price = this.createProductForm.controls['price'];
-  quantity = this.createProductForm.controls['quantity'];
+  serialNumber = this.createProductForm.controls['serialNumber'];
 
   onCreateProduct(){
     const formValues = this.createProductForm.value;
 
+    debugger;
     var product: Product = {
       id: 0,
       name: formValues.name,
@@ -51,7 +51,7 @@ export class ProductAddComponent implements OnInit {
       categoryId: parseInt(formValues.category),
       categoryName: "",
       price: formValues.price,
-      quantity: formValues.quantity
+      serialNumber: formValues.serialNumber
     };
 
     this.productService.createProduct(product)

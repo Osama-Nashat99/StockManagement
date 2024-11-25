@@ -1,4 +1,5 @@
 ﻿using StockManagement.Domain.Entities;
+using StockManagement.Domain.Exceptions;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
 using StockManagement.Domain.Validators;
@@ -17,62 +18,61 @@ namespace StockManagement.Domain.Services
             _validator = validator;
         }
 
-        public Result<FetchUsersModel> FetchUsers(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
+        public FetchModel<User> FetchUsers(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
         {
-            FetchUsersModel usersModel = _userRepository.FetchAsync(pageNumber, pageSize, searchFilter, sortBy, sortDirection).Result;
+            FetchModel<User> usersModel = _userRepository.FetchAsync(pageNumber, pageSize, searchFilter, sortBy, sortDirection).Result;
 
             if (usersModel == null)
-                return Result<FetchUsersModel>.Failure("Could not fetch users", HttpStatusCode.InternalServerError);
+                throw new Exception("Could not fetch users");
 
-            return Result<FetchUsersModel>.Success(usersModel);
+            return usersModel;
         }
 
-        public Result<User> Get(string username, string password) { 
+        public User Get(string username, string password) 
+        { 
             User user = _userRepository.Get(username, password).Result;
 
             if (user == null)
-                return Result<User>.Failure("User not found", HttpStatusCode.NotFound);
+                throw new NotFoundException("User not found");
 
-            return Result<User>.Success(user);
+            return user;
         }
 
-        public Result<User> GetByUsername(string username) {
+        public User GetByUsername(string username) 
+        {
             User user = _userRepository.GetByUsername(username).Result;
 
             if (user == null)
-                return Result<User>.Failure("User not found", HttpStatusCode.NotFound);
+                throw new NotFoundException("User not found");
 
-            return Result<User>.Success(user);
+            return user;
         }
 
-        public Result<User> AddUser(User user) {
+        public User AddUser(User user) {
 
             var result = _validator.AddUserValidation(user);
 
-            if (result.isSuccess == false)
-                return result;
+            var searchedUser = GetByUsername(user.Username);
 
-            result = GetByUsername(user.Username);
-
-            if (result.isSuccess)
-                return Result<User>.Failure("Username is already used", HttpStatusCode.BadRequest);
+            if (searchedUser != null)
+                throw new BadRequestException("Username is already used");
 
             user = _userRepository.Create(user).Result;
 
             if (user == null || user.Id <= 0)
-                return Result<User>.Failure("User was not added", HttpStatusCode.InternalServerError);
+                throw new Exception("User was not added");
 
-            return Result<User>.Success(user);
+            return user;
         }
 
-        public Result<User> UpdatePassword(int id, string password)
+        public User UpdatePassword(int id, string password)
         {
             User user = _userRepository.UpdatePassword(id, password);
 
             if (user == null)
-                return Result<User>.Failure("User was not found", HttpStatusCode.NotFound);
+                throw new NotFoundException("User was not found");
 
-            return Result<User>.Success(user);
+            return user;
         }
     }
 }

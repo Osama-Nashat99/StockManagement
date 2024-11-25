@@ -1,6 +1,6 @@
 import { Product } from "./Product.model";
 
 export interface FetchProducts {
-  totalProducts: number,
-  products: Product[]
+  totalEntities: number,
+  entities: Product[]
 }

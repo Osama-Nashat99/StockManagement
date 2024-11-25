@@ -23,6 +23,7 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
+    console.log(product)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'

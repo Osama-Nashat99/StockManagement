@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
 using StockManagement.Domain.Services;
@@ -17,14 +18,28 @@ namespace StockManagement.API.Controllers
         }
 
         [HttpGet()]
-        public IActionResult Get()
+        public IEnumerable<CategoryDto> Get()
         {
-            var result = _categoryService.Get();
+            var categories = _categoryService.Get();
+            return CategoryMapper.ToCategoryDto(categories);
+        }
 
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
+        [HttpPost("fetch")]
+        public FetchDto<CategoryDto> FetchCategories([FromBody] FilterDto filterDto)
+        {
+            var fetchCategoryModel = _categoryService.FetchCategories(filterDto.PageNumber, filterDto.PageSize, filterDto.Search, filterDto.SortBy, filterDto.SortDirection);
+            return CategoryMapper.ToCategoryDto(fetchCategoryModel);
+        }
 
-            return Ok(CategoryMapper.ToCategoryDto(result.value));
+        [Authorize(Roles = "1")]
+        [HttpPost]
+        public CategoryDto Post([FromBody] CategoryDto categoryDto)
+        {
+            var username = HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var category = CategoryMapper.ToCategoryEntity(categoryDto);
+            category.CreatedBy = username;
+            category = _categoryService.AddCategory(category);
+            return CategoryMapper.ToCategoryDto(category);
         }
     }
 }

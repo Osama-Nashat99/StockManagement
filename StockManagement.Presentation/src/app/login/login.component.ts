@@ -26,15 +26,12 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.username.value, this.password.value).subscribe({
       next: (response) => {
-        this.authService.storeToken(response.token);
+        this.authService.storeTokenAndUserInfo(response.token, response.fullName, response.userId);
         if (response.isFirstLogin) {
-          this.router.navigate(['/reset']);
+          this.router.navigate(['/password/reset']);
         } else {
           this.router.navigate(['/products']);
         }
-      },
-      error: (error) => {
-        console.log(error);
       }
     });
   }

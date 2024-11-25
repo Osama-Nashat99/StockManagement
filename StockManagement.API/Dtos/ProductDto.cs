@@ -10,6 +10,6 @@ namespace StockManagement.API.Dtos
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        public string? SerialNumber { get; set; }
     }
 }

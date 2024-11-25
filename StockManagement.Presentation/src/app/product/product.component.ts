@@ -55,8 +55,8 @@ export class ProductComponent implements OnInit {
         return this.productService.fetchAll(filter);
       })
     ).subscribe(response => {
-      this.productsList = response.products;
-      this.totalProducts = response.totalProducts;
+      this.productsList = response.entities;
+      this.totalProducts = response.totalEntities;
       this.loading = false
     });
 
@@ -75,8 +75,8 @@ export class ProductComponent implements OnInit {
         return this.productService.fetchAll(filter);
       })
     ).subscribe(response => {
-      this.productsList = response.products;
-      this.totalProducts = response.totalProducts;
+      this.productsList = response.entities;
+      this.totalProducts = response.totalEntities;
       this.loading = false
     });
 

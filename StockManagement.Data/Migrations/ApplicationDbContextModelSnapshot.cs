@@ -51,7 +51,7 @@ namespace StockManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("categories");
 
                     b.HasData(
                         new
@@ -125,12 +125,17 @@ namespace StockManagement.Data.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<string>("SerialNumber")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("SerialNumber")
+                        .IsUnique()
+                        .HasFilter("[SerialNumber] IS NOT NULL");
 
                     b.ToTable("Products", (string)null);
 
@@ -143,7 +148,7 @@ namespace StockManagement.Data.Migrations
                             Description = "A high-end smartphone with amazing features",
                             Name = "Smartphone XYZ",
                             Price = 799.00m,
-                            Quantity = 50
+                            SerialNumber = "5a5d2376-c23a-4455-b388-8e36ae2ccfc6"
                         },
                         new
                         {
@@ -153,7 +158,7 @@ namespace StockManagement.Data.Migrations
                             Description = "A premium leather jacket for winter",
                             Name = "Stylish Leather Jacket",
                             Price = 120.00m,
-                            Quantity = 30
+                            SerialNumber = "0f9bac5c-a46b-403a-8a68-39ee78d1409f"
                         },
                         new
                         {
@@ -163,7 +168,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Noise-canceling wireless headphones",
                             Name = "Bluetooth Headphones",
                             Price = 150.00m,
-                            Quantity = 100
+                            SerialNumber = "fcb71ce4-25d0-4031-9053-eadca828ec6e"
                         },
                         new
                         {
@@ -173,7 +178,7 @@ namespace StockManagement.Data.Migrations
                             Description = "A cozy winter jacket to keep you warm",
                             Name = "Winter Jacket",
                             Price = 80.00m,
-                            Quantity = 40
+                            SerialNumber = "a3f0a58f-7400-43ee-856a-5c8ebe901be9"
                         },
                         new
                         {
@@ -183,7 +188,7 @@ namespace StockManagement.Data.Migrations
                             Description = "A smartwatch with fitness tracking and notifications",
                             Name = "Smart Watch",
                             Price = 200.00m,
-                            Quantity = 75
+                            SerialNumber = "36e3f9c5-e5b9-4f16-959b-a2bcdc76d701"
                         },
                         new
                         {
@@ -193,7 +198,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Ultra HD LED TV with smart features",
                             Name = "LED TV",
                             Price = 500.00m,
-                            Quantity = 60
+                            SerialNumber = "b7483350-cce4-4f04-b9a4-443d16df038c"
                         },
                         new
                         {
@@ -203,7 +208,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Fast boiling electric kettle for quick tea or coffee",
                             Name = "Electric Kettle",
                             Price = 30.00m,
-                            Quantity = 120
+                            SerialNumber = "50dc923f-c588-48a6-b981-4781f90a17d6"
                         },
                         new
                         {
@@ -213,7 +218,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Energy-efficient fridge with large capacity",
                             Name = "Refrigerator",
                             Price = 800.00m,
-                            Quantity = 20
+                            SerialNumber = "e3b7d25f-5277-4e07-850f-8b9ff4855a36"
                         },
                         new
                         {
@@ -223,7 +228,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Water-resistant portable Bluetooth speaker",
                             Name = "Portable Speaker",
                             Price = 90.00m,
-                            Quantity = 50
+                            SerialNumber = "8386f46f-3403-4196-a1cd-404722bf7d91"
                         },
                         new
                         {
@@ -233,7 +238,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Healthy cooking with this modern air fryer",
                             Name = "Air Fryer",
                             Price = 150.00m,
-                            Quantity = 45
+                            SerialNumber = "4db3ff0f-07ab-42f7-a0d2-6e95a13215a8"
                         },
                         new
                         {
@@ -243,7 +248,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Sonic electric toothbrush for cleaner teeth",
                             Name = "Electric Toothbrush",
                             Price = 60.00m,
-                            Quantity = 80
+                            SerialNumber = "c138a585-3959-428b-8c1b-e75e6a9698b6"
                         },
                         new
                         {
@@ -253,7 +258,7 @@ namespace StockManagement.Data.Migrations
                             Description = "High-quality digital camera for photography enthusiasts",
                             Name = "Digital Camera",
                             Price = 400.00m,
-                            Quantity = 35
+                            SerialNumber = "e2730a18-0e01-4e6b-8b19-fa4c1be2f491"
                         },
                         new
                         {
@@ -263,7 +268,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Ergonomic gaming mouse with customizable buttons",
                             Name = "Gaming Mouse",
                             Price = 50.00m,
-                            Quantity = 100
+                            SerialNumber = "72a6e83c-a5e1-4d62-a3db-3792ab30fda7"
                         },
                         new
                         {
@@ -273,7 +278,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Adjustable desk lamp with LED lighting",
                             Name = "LED Desk Lamp",
                             Price = 40.00m,
-                            Quantity = 150
+                            SerialNumber = "13d2eeaa-a58f-4273-a283-004a1c87a364"
                         },
                         new
                         {
@@ -283,7 +288,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Magnetic phone mount for easy car navigation",
                             Name = "Car Phone Mount",
                             Price = 20.00m,
-                            Quantity = 200
+                            SerialNumber = "c696ada0-c36c-4093-b628-3cf22475fc60"
                         },
                         new
                         {
@@ -293,7 +298,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Spacious 4-person camping tent with waterproof design",
                             Name = "Camping Tent",
                             Price = 120.00m,
-                            Quantity = 50
+                            SerialNumber = "7be829fb-1003-421f-bfda-cb1b46a2b718"
                         },
                         new
                         {
@@ -303,7 +308,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Wi-Fi enabled smart thermostat for energy savings",
                             Name = "Smart Thermostat",
                             Price = 250.00m,
-                            Quantity = 30
+                            SerialNumber = "4ffd8cbc-b5bd-42f2-bba0-47268e379132"
                         },
                         new
                         {
@@ -313,7 +318,7 @@ namespace StockManagement.Data.Migrations
                             Description = "High-capacity portable power bank for smartphones",
                             Name = "Portable Charger",
                             Price = 40.00m,
-                            Quantity = 150
+                            SerialNumber = "4f3f75dc-fd87-4468-b1c7-a550b7516aea"
                         },
                         new
                         {
@@ -323,7 +328,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Durable and spacious backpack for laptops and accessories",
                             Name = "Laptop Backpack",
                             Price = 40.00m,
-                            Quantity = 80
+                            SerialNumber = "f76ef7ff-240a-4989-b7d8-c3575939a808"
                         },
                         new
                         {
@@ -333,7 +338,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Sleek modern wall clock with a minimal design",
                             Name = "Wall Clock",
                             Price = 25.00m,
-                            Quantity = 120
+                            SerialNumber = "76881290-6c05-495a-8160-027bffd4323f"
                         },
                         new
                         {
@@ -343,7 +348,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Professional blow dryer with multiple heat settings",
                             Name = "Hair Dryer",
                             Price = 70.00m,
-                            Quantity = 60
+                            SerialNumber = "b55dc73f-d093-4af1-bb0a-dd0ca4abf9f0"
                         },
                         new
                         {
@@ -353,7 +358,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Blend your smoothies on the go with this portable blender",
                             Name = "Portable Blender",
                             Price = 45.00m,
-                            Quantity = 75
+                            SerialNumber = "1f7a46b6-131f-4454-aa08-f091a5b7980b"
                         },
                         new
                         {
@@ -363,7 +368,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Portable camping stove for outdoor cooking",
                             Name = "Camping Stove",
                             Price = 70.00m,
-                            Quantity = 40
+                            SerialNumber = "7cdea6eb-d8a5-4db9-b133-a823fd29a593"
                         },
                         new
                         {
@@ -373,7 +378,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Wearable fitness tracker to monitor daily activities",
                             Name = "Fitness Tracker",
                             Price = 130.00m,
-                            Quantity = 100
+                            SerialNumber = "cc02b812-8602-47ae-9d84-9093ba430e4b"
                         },
                         new
                         {
@@ -383,7 +388,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Ergonomic gaming chair with adjustable armrests",
                             Name = "Gaming Chair",
                             Price = 180.00m,
-                            Quantity = 60
+                            SerialNumber = "c8e7458e-a7e3-4beb-9650-6322e7f21b43"
                         },
                         new
                         {
@@ -393,7 +398,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Eco-friendly solar charger for your devices",
                             Name = "Solar Charger",
                             Price = 35.00m,
-                            Quantity = 110
+                            SerialNumber = "a3c6fc60-5e39-4585-b209-c57e5a78e1c5"
                         },
                         new
                         {
@@ -403,7 +408,7 @@ namespace StockManagement.Data.Migrations
                             Description = "Home air purifier with HEPA filter for cleaner air",
                             Name = "Air Purifier",
                             Price = 150.00m,
-                            Quantity = 25
+                            SerialNumber = "eab010d3-1af2-465e-8c74-8a2b1cc4eab8"
                         });
                 });
 
@@ -471,7 +476,7 @@ namespace StockManagement.Data.Migrations
                             FirstName = "admin",
                             IsFirstLogin = false,
                             LastName = "admin",
-                            Password = "AQAAAAIAAYagAAAAEMWCsWXMB6pQR19hYOn2kH10bkv7Z8S+onHAVRuwrSIRQCasriJyD/ygGb/BIpc6Ig==",
+                            Password = "AQAAAAIAAYagAAAAEDum2iRiutnvrIxksx260617eJZ5/frmQHNpcaEP27j39MWIxPKHhv2ntx5/nfMeTw==",
                             Role = 1,
                             Username = "admin"
                         },
@@ -482,7 +487,7 @@ namespace StockManagement.Data.Migrations
                             FirstName = "user",
                             IsFirstLogin = false,
                             LastName = "user",
-                            Password = "AQAAAAIAAYagAAAAEOxpjpkjDJgvOtgjUUSz45heA7vI2dfx7hKN+raYatQGtanFM+L7WusgiRyU/uiHIA==",
+                            Password = "AQAAAAIAAYagAAAAEKdGQFx6nUc7WD3b5LU2dBKnJm0+JoJeT386V26RG+9LtONU47329rCacuooACFtnQ==",
                             Role = 2,
                             Username = "user"
                         });

@@ -39,9 +39,9 @@
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('category')">
+              <th scope="col" (click)="sort('categoryId')">
                 Category
-                <span *ngIf="sortedColumn === 'category'">
+                <span *ngIf="sortedColumn === 'categoryId'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
@@ -51,9 +51,9 @@
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('quantity')">
-                Quantity
-                <span *ngIf="sortedColumn === 'quantity'">
+              <th scope="col" (click)="sort('serialNumber')">
+                Serial Number
+                <span *ngIf="sortedColumn === 'serialNumber'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
@@ -67,7 +67,7 @@
               <td>{{product.description}}</td>
               <td>{{product.categoryName}}</td>
               <td><i class="bi bi-currency-dollar"></i>{{product.price}}</td>
-              <td>{{product.quantity}}</td>
+              <td>{{product.serialNumber}}</td>
               <td *ngIf="isAdmin()"><a [routerLink]="'edit/' + product.id"><i class="bi bi-pencil"></i></a></td>
           </tr>
       </tbody>

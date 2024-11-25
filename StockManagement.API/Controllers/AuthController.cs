@@ -16,21 +16,10 @@ namespace StockManagement.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] LoginModel model)
+        public LoginResponseModel Login([FromBody] LoginModel model)
         {
-            try
-            {
-                var result = _authService.Authorize(model.Username, model.Password);
-
-                if (result.isSuccess == false)
-                    return StatusCode(result.code.GetHashCode(), result.message);
-
-                return Ok(result.value);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
+            var response = _authService.Authorize(model.Username, model.Password);
+            return response;
         } 
     }
 }

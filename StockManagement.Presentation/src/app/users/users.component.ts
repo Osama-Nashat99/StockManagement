@@ -54,8 +54,8 @@ export class UsersComponent implements OnInit {
         return this.userService.fetchAll(filter);
       })
     ).subscribe(response => {
-      this.usersList = response.users;
-      this.totalUsers = response.totalUsers;
+      this.usersList = response.entities;
+      this.totalUsers = response.totalEntities;
       this.loading = false
     });
 
@@ -74,8 +74,8 @@ export class UsersComponent implements OnInit {
         return this.userService.fetchAll(filter);
       })
     ).subscribe(response => {
-      this.usersList = response.users;
-      this.totalUsers = response.totalUsers;
+      this.usersList = response.entities;
+      this.totalUsers = response.totalEntities;
       this.loading = false
     });
 

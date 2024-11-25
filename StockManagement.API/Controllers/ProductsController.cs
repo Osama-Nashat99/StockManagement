@@ -18,61 +18,56 @@ namespace StockManagement.API.Controllers
         }
 
         [HttpPost("fetch")]
-        public IActionResult FetchProducts([FromBody] FilterDto filterProductsDto)
+        public FetchDto<ProductDto> FetchProducts([FromBody] FilterDto filterProductsDto)
         {
             var result = _productService.FetchProducts(filterProductsDto.PageNumber, filterProductsDto.PageSize, filterProductsDto.Search, filterProductsDto.SortBy, filterProductsDto.SortDirection);
-
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
-
-            return Ok(ProductsMapper.ToProductDto(result.value));
+            return ProductsMapper.ToProductDto(result);
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ProductDto Get(int id)
         {
-            var result = _productService.GetProductById(id);
-
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
-
-            return Ok(ProductsMapper.ToProductDto(result.value));
+            var product = _productService.GetProductById(id);
+            return ProductsMapper.ToProductDto(product);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "1")]
         [HttpPost]
-        public IActionResult Post([FromBody] ProductDto product)
+        public AddProductDto Post([FromBody] ProductDto productDto)
         {
-            var result = _productService.AddProduct(ProductsMapper.ToProductEntity(product));
+            var username = HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var product = ProductsMapper.ToProductEntity(productDto);
+            product.CreatedBy = username;
 
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
+            if (string.IsNullOrEmpty(product.SerialNumber))
+                product.SerialNumber = null;
 
-            return Ok(ProductsMapper.ToAddProductDto(result.value));
+            product = _productService.AddProduct(product);
+            return ProductsMapper.ToAddProductDto(product);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "1")]
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductDto product)
+        public AddProductDto Put(int id, [FromBody] ProductDto productDto)
         {
-            var result = _productService.UpdateProduct(id, ProductsMapper.ToProductEntity(product));
+            var username = HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var product = ProductsMapper.ToProductEntity(productDto);
+            product.ModifiedDate = DateTime.Now;
+            product.ModifiedBy = username;
 
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
+            if (string.IsNullOrEmpty(product.SerialNumber))
+                product.SerialNumber = null;
 
-            return Ok(ProductsMapper.ToAddProductDto(result.value));
+            product = _productService.UpdateProduct(id, product);
+            return ProductsMapper.ToAddProductDto(product);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "1")]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ProductDto Delete(int id)
         {
-            var result = _productService.DeleteProduct(id);
-
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
-
-            return Ok(ProductsMapper.ToProductDto(result.value));
+            var product = _productService.DeleteProduct(id);
+            return ProductsMapper.ToProductDto(product);
         }
     }
 }

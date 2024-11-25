@@ -26,8 +26,6 @@ namespace StockManagement.Domain.Validators
             if (product.Price < 0)
                 return Result<Product>.Failure("Product price should be greater than 0", HttpStatusCode.BadRequest);
 
-            if (product.Quantity < 0)
-                return Result<Product>.Failure("Product quantity should be greater than 0", HttpStatusCode.BadRequest);
 
             return Result<Product>.Success(product);
         }
@@ -49,9 +47,6 @@ namespace StockManagement.Domain.Validators
 
             if (product.Price < 0)
                 return Result<Product>.Failure("Product price should be greater than 0", HttpStatusCode.BadRequest);
-
-            if (product.Quantity < 0)
-                return Result<Product>.Failure("Product quantity should be greater than 0", HttpStatusCode.BadRequest);
 
             return Result<Product>.Success(product);
         }

@@ -17,7 +17,7 @@
       </a>
     </li>
 
-    <li>
+    <li *ngIf="isAdmin()">
       <a routerLink="/users" routerLinkActive="active">
         <i class="bi bi-people"></i>
         <span class="link_name">Users</span>

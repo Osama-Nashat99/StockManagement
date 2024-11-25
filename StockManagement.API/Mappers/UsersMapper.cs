@@ -6,19 +6,19 @@ namespace StockManagement.API.Mappers
 {
     public class UsersMapper
     {
-        public static FetchUsersDto ToUserDto(FetchUsersModel model)
+        public static FetchDto<UserDto> ToUserDto(FetchModel<User> model)
         {
-            FetchUsersDto dto = new FetchUsersDto();
+            FetchDto<UserDto> dto = new FetchDto<UserDto>();
 
-            dto.TotalUsers = model.TotalUsers;
+            dto.TotalEntities = model.TotalEntities;
 
-            dto.Users = model.Users.Select(p => new UserDto()
+            dto.Entities = model.Entities.Select(u => new UserDto()
             {
-                Id = p.Id,
-                Username = p.Username,
-                FirstName = p.FirstName,
-                LastName = p.LastName,
-                Role = p.Role
+                Id = u.Id,
+                Username = u.Username,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Role = u.Role
             });
 
             return dto;

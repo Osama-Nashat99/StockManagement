@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StockManagement.Domain.Models
+﻿namespace StockManagement.Domain.Models
 {
     public class LoginResponseModel
     {
         public string Token { get; set; }
 
         public bool IsFirstLogin { get; set; }
+
+        public string FullName { get; set; }
+
+        public string userId { get; set; }
     }
 }

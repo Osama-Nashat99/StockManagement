@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using StockManagement.Domain.Entities;
+using StockManagement.Domain.Exceptions;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,25 +20,27 @@ namespace StockManagement.Domain.Services
             _userRepository = userRepository;
         }
 
-        public Result<LoginResponseModel> Authorize(string username, string password)
+        public LoginResponseModel Authorize(string username, string password)
         {
             User user = _userRepository.GetByUsername(username).Result;
 
             if (user == null)
-                return Result<LoginResponseModel>.Failure("invalid credentials", HttpStatusCode.Unauthorized);
+                throw new UnAuthorizedException("invalid credentials");
 
             if (_userRepository.VerifyPassword(user, password) == false)
-                return Result<LoginResponseModel>.Failure("invalid credentials", HttpStatusCode.Unauthorized);
+                throw new UnAuthorizedException("invalid credentials");
 
             string token = GenerateJwtToken(user);
 
             LoginResponseModel model = new LoginResponseModel
             {
                 IsFirstLogin = user.IsFirstLogin,
-                Token = token
+                Token = token,
+                FullName = user.FirstName + " " + user.LastName,
+                userId = user.Id.ToString()
             };
 
-            return Result<LoginResponseModel>.Success(model);
+            return model;
         }
 
         private string GenerateJwtToken(User user)

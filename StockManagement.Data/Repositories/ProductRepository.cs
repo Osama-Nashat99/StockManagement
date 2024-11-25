@@ -15,13 +15,13 @@ namespace StockManagement.Data.Repositories
             _db = applicationDbContext;
         }
 
-        public async Task<FetchProductsModel> FetchAsync(int pageNumber = 1, int pageSize = 10, string search = "", string sortBy = "id", string sortDirection = "asc")
+        public async Task<FetchModel<Product>> FetchAsync(int pageNumber = 1, int pageSize = 10, string search = "", string sortBy = "id", string sortDirection = "asc")
         {
-            FetchProductsModel model = new FetchProductsModel();
+            FetchModel<Product> model = new FetchModel<Product>();
 
             IQueryable<Product> productsQuery = _db.products.Include(p => p.Category).AsQueryable();
 
-            model.TotalProducts = await productsQuery.CountAsync();
+            model.TotalEntities = await productsQuery.CountAsync();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -44,7 +44,7 @@ namespace StockManagement.Data.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            model.Products = productsList;
+            model.Entities = productsList;
 
             return model;
 

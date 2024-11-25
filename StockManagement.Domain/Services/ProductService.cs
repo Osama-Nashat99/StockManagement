@@ -1,8 +1,8 @@
 ﻿using StockManagement.Domain.Entities;
+using StockManagement.Domain.Exceptions;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
 using StockManagement.Domain.Validators;
-using System.Net;
 
 namespace StockManagement.Domain.Services
 {
@@ -17,74 +17,61 @@ namespace StockManagement.Domain.Services
             _validator = productValidator;
         }
 
-        public Result<FetchProductsModel> FetchProducts(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
+        public FetchModel<Product> FetchProducts(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
         {
-            FetchProductsModel productsModel = _productRepository.FetchAsync(pageNumber, pageSize, searchFilter, sortBy, sortDirection).Result;
+            FetchModel<Product> productsModel = _productRepository.FetchAsync(pageNumber, pageSize, searchFilter, sortBy, sortDirection).Result;
 
             if (productsModel == null)
-                return Result<FetchProductsModel>.Failure("Could not fetch products", HttpStatusCode.InternalServerError);
+                throw new Exception("Could not fetch products");
 
-            return Result<FetchProductsModel>.Success(productsModel);
+            return productsModel; 
         }
 
-        public Result<Product> GetProductById(int id)
+        public Product GetProductById(int id)
         {   
             var result = _validator.GetByIdValidation(id);
             
-            if (result.isSuccess == false)
-                return result;
-            
             Product product = _productRepository.GetByIdAsync(id).Result;
 
-            if (product == null)            
-                return Result<Product>.Failure($"Product with id {id} was not found", HttpStatusCode.NotFound);
+            if (product == null)
+                throw new NotFoundException($"Product with id {id} was not found");
 
-            return Result<Product>.Success(product);
+            return product;
         }
 
-        public Result<Product> AddProduct(Product product) 
+        public Product AddProduct(Product product) 
         {
             var result = _validator.AddProductValidation(product);
-
-            if (result.isSuccess == false)
-                return result;
 
             product = _productRepository.AddAsync(product).Result;
 
             if (product == null || product.Id <= 0)
-                return Result<Product>.Failure("Product was not added", HttpStatusCode.InternalServerError);
+                throw new Exception("Product was not added");
 
-            return Result<Product>.Success(product);
+            return product;
         }
 
-        public Result<Product> UpdateProduct(int id, Product product)
+        public Product UpdateProduct(int id, Product product)
         {
             var result = _validator.UpdateProductValidation(id, product);
-
-            if (result.isSuccess == false)
-                return result;
 
             product.Id = id;
             product = _productRepository.Update(product);
 
-            return Result<Product>.Success(product);
+            return product;
         }
 
-        public Result<Product> DeleteProduct(int id)
+        public Product DeleteProduct(int id)
         {
             var result = _validator.DeleteProductValidation(id);
-
-            if (result.isSuccess == false)
-                return result;
 
             Product product = _productRepository.GetByIdAsync(id).Result;
 
             if (product == null)
-                return Result<Product>.Failure($"Product with id {id} was not found", HttpStatusCode.NotFound);
+                throw new NotFoundException($"Product with id {id} was not found");
 
             _productRepository.Delete(product);
-
-            return Result<Product>.Success(product);
+            return product;
         }
     }
 }

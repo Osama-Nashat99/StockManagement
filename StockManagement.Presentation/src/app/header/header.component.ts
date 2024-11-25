@@ -13,6 +13,8 @@ import { NgIf } from '@angular/common';
 export class HeaderComponent implements OnInit {
 
   isLoggedIn: boolean = false;
+  userFullName: string | null = '';
+
   constructor(private authService: AuthService, private router: Router){}
 
   isActiveRoute(route: string): boolean {
@@ -21,6 +23,7 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.userFullName = this.authService.getUserFullName();
   }
 
   logout(){

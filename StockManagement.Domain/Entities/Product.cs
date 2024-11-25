@@ -10,7 +10,7 @@ namespace StockManagement.Domain.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        public string SerialNumber { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }

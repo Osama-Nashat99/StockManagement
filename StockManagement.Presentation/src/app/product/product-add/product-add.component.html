@@ -47,10 +47,10 @@
                     </div>
 
                     <div class="mb-3 col-md-6">
-                        <label for="quantity" class="form-label">Quantity <span>*</span></label>
-                        <input formControlName="quantity" type="number" class="form-control" id="quantity">
-                        <span class="validation-message" *ngIf="quantity.invalid && quantity.touched">
-                            Please provide a valid product quantity.
+                        <label for="serialNumber" class="form-label">Serial Number</label>
+                        <input formControlName="serialNumber" type="text" class="form-control" id="serialNumber">
+                        <span class="validation-message" *ngIf="serialNumber.invalid && serialNumber.touched">
+                            Serial number should be less than 500 characters.
                         </span>
                     </div>
                 </div>

@@ -7,13 +7,13 @@ namespace StockManagement.API.Mappers
     public static class ProductsMapper
     {
 
-        public static FetchProductsDto ToProductDto(FetchProductsModel model)
+        public static FetchDto<ProductDto> ToProductDto(FetchModel<Product> model)
         {
-            FetchProductsDto dto = new FetchProductsDto();
+            FetchDto<ProductDto> dto = new FetchDto<ProductDto>();
 
-            dto.TotalProducts = model.TotalProducts;
+            dto.TotalEntities = model.TotalEntities;
 
-            dto.Products = model.Products.Select(p => new ProductDto()
+            dto.Entities = model.Entities.Select(p => new ProductDto()
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -21,7 +21,7 @@ namespace StockManagement.API.Mappers
                 CategoryId = p.CategoryId,
                 CategoryName = p.Category.Name,
                 Price = p.Price,
-                Quantity = p.Quantity
+                SerialNumber = p.SerialNumber
             });
 
             return dto;
@@ -37,7 +37,7 @@ namespace StockManagement.API.Mappers
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category.Name,
                 Price = product.Price,
-                Quantity = product.Quantity
+                SerialNumber = product.SerialNumber
             };
         }
 
@@ -50,7 +50,7 @@ namespace StockManagement.API.Mappers
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 Price = product.Price,
-                Quantity = product.Quantity
+                SerialNumber = product.SerialNumber
             };
         }
 
@@ -62,7 +62,7 @@ namespace StockManagement.API.Mappers
                 Description = dto.Description,
                 CategoryId = dto.CategoryId,
                 Price = dto.Price,
-                Quantity = dto.Quantity
+                SerialNumber = dto.SerialNumber
             };
         }
     }

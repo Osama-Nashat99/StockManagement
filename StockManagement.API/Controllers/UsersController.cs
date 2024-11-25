@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
-using StockManagement.Domain.Enums;
 using StockManagement.Domain.Services;
 
 namespace StockManagement.API.Controllers
@@ -19,38 +18,26 @@ namespace StockManagement.API.Controllers
         }
 
         [HttpPost("fetch")]
-        public IActionResult FetchUsers([FromBody] FilterDto filterDto)
+        public FetchDto<UserDto> FetchUsers([FromBody] FilterDto filterDto)
         {
-            var result = _userService.FetchUsers(filterDto.PageNumber, filterDto.PageSize, filterDto.Search, filterDto.SortBy, filterDto.SortDirection);
-
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
-
-            return Ok(UsersMapper.ToUserDto(result.value));
+            var fetchUsersModel = _userService.FetchUsers(filterDto.PageNumber, filterDto.PageSize, filterDto.Search, filterDto.SortBy, filterDto.SortDirection);
+            return UsersMapper.ToUserDto(fetchUsersModel);
         }
 
         [Authorize(Roles = "1")]
         [HttpPost]
-        public IActionResult Post([FromBody] UserDto user)
+        public UserDto Post([FromBody] UserDto userDto)
         {
-            var result = _userService.AddUser(UsersMapper.ToUserEntity(user));
-
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
-
-            return Ok(UsersMapper.ToUserDto(result.value));
+            var user = _userService.AddUser(UsersMapper.ToUserEntity(userDto));
+            return UsersMapper.ToUserDto(user);
         }
 
-        [Authorize()]
+        [Authorize]
         [HttpPut("reset/{id}")]
-        public IActionResult ResetPassword(int id, [FromBody] string password)
+        public UserDto ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
-            var result = _userService.UpdatePassword(id, password);
-
-            if (result.isSuccess == false)
-                return StatusCode(result.code.GetHashCode(), result.message);
-
-            return Ok(UsersMapper.ToUserDto(result.value));
+            var user = _userService.UpdatePassword(id, resetPasswordDto.Password);
+            return UsersMapper.ToUserDto(user);
         }
     }
 }

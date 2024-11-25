@@ -18,13 +18,13 @@ namespace StockManagement.Data.Repositories
             _passwordHasher = new PasswordHasher<User>();
         }
 
-        public async Task<FetchUsersModel> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
+        public async Task<FetchModel<User>> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
         {
-            FetchUsersModel model = new FetchUsersModel();
+            FetchModel<User> model = new FetchModel<User>();
 
             IQueryable<User> usersQuery = _db.users.AsQueryable();
 
-            model.TotalUsers = await usersQuery.CountAsync();
+            model.TotalEntities = await usersQuery.CountAsync();
 
             if (!string.IsNullOrEmpty(searchFilter))
             {
@@ -46,7 +46,7 @@ namespace StockManagement.Data.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            model.Users = usersList;
+            model.Entities = usersList;
 
             return model;
 
@@ -81,6 +81,8 @@ namespace StockManagement.Data.Repositories
 
             user.Password = _passwordHasher.HashPassword(user, password);
             user.IsFirstLogin = false;
+            user.ModifiedBy = user.Username;
+            user.ModifiedDate = DateTime.Now;
             _db.Update(user);
             _db.SaveChanges();
             return user;
