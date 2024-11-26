@@ -18,5 +18,7 @@ namespace StockManagement.Domain.Interfaces
         public bool VerifyPassword(User user, string enteredPassword);
 
         void Delete(User user);
+
+        public Task<bool> IsUserExistsAsync(int id);
     }
 }

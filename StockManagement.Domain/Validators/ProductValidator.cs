@@ -10,10 +10,12 @@ namespace StockManagement.Domain.Validators
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IStoreRepository _storeRepository;
 
-        public ProductValidator(IProductRepository productRepository)
+        public ProductValidator(IProductRepository productRepository, IStoreRepository storeRepository)
         {
             _productRepository = productRepository;
+            _storeRepository = storeRepository;
         }
 
         public void AddProductValidation(Product product)
@@ -21,8 +23,29 @@ namespace StockManagement.Domain.Validators
             if (string.IsNullOrEmpty(product.Name))
                 throw new BadRequestException("Product name is required");
 
+            if (string.IsNullOrEmpty(product.Description))
+                throw new BadRequestException("Product description is required");
+
             if (product.Price < 0)
                 throw new BadRequestException("Product price should be greater than 0");
+
+            if (!string.IsNullOrEmpty(product.SerialNumber))
+            {
+                bool isSerialNumberExists = _productRepository.IsSerialNumberExistsAsync(product.SerialNumber).Result;
+
+                if (isSerialNumberExists)
+                    throw new BadRequestException("Serial number is already used");
+            }
+
+            if (Enum.IsDefined(typeof(ProductStatus), product.Status) == false)
+                throw new BadRequestException("Product status is not defined");
+
+            bool isStoreExists = _storeRepository.IsStoreExistsAsync(product.StoreId).Result;
+            if (isStoreExists == false)
+                throw new BadRequestException("Store doesn't exist");
+
+            if (product.Status == ProductStatus.Issued && string.IsNullOrEmpty(product.IssuedFor))
+                throw new BadRequestException("Product issued for is required for issued products");
         }
 
         public void UpdateProductValidation(int id, Product product)
@@ -41,8 +64,21 @@ namespace StockManagement.Domain.Validators
             if (string.IsNullOrEmpty(product.Name))
                 throw new BadRequestException("Product name is required");
 
+            if (string.IsNullOrEmpty(product.Description))
+                throw new BadRequestException("Product description is required");
+
             if (product.Price < 0)
                 throw new BadRequestException("Product price should be greater than 0");
+
+            if (Enum.IsDefined(typeof(ProductStatus), product.Status) == false)
+                throw new BadRequestException("Product status is not defined");
+
+            bool isStoreExists = _storeRepository.IsStoreExistsAsync(product.StoreId).Result;
+            if (isStoreExists == false)
+                throw new BadRequestException("Store doesn't exist");
+
+            if (product.Status == ProductStatus.Issued && string.IsNullOrEmpty(product.IssuedFor))
+                throw new BadRequestException("Product issued for is required for issued products");
         }
 
         public void GetByIdValidation(int id)

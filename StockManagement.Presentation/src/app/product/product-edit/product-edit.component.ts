@@ -8,6 +8,10 @@ import { HeaderComponent } from '../../header/header.component';
 import { Category } from '../../../models/Category.model';
 import { CategoryService } from '../../../services/category.service';
 import { Product } from '../../../models/Product.model';
+import { v4 as uuidv4 } from 'uuid';
+import { ProductStatus } from '../../../enums/productStatus.enum';
+import { Store } from '../../../models/Store.model';
+import { StoreService } from '../../../services/store.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -19,15 +23,21 @@ import { Product } from '../../../models/Product.model';
 export class ProductEditComponent implements OnInit {
   productId: number = 0;
   categories: Category[] = [];
+  stores: Store[] = [];
+  productStatus: {value: number, label: String}[] = [];
+  showIssuedFor: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService, private categoryService: CategoryService, private snackBar: MatSnackBar){}
+  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService, private categoryService: CategoryService, private storeService: StoreService, private snackBar: MatSnackBar){}
 
   updateProductForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
     description: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
     category: new FormControl("", Validators.required),
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
-    serialNumber: new FormControl(null, Validators.maxLength(500))
+    serialNumber: new FormControl(null, Validators.maxLength(500)),
+    store: new FormControl("", [Validators.required]),
+    status: new FormControl("", [Validators.required]),
+    issuedFor: new FormControl(""),
   });
 
   name = this.updateProductForm.controls['name'];
@@ -35,12 +45,26 @@ export class ProductEditComponent implements OnInit {
   description = this.updateProductForm.controls['description'];
   price = this.updateProductForm.controls['price'];
   serialNumber = this.updateProductForm.controls['serialNumber'];
+  store = this.updateProductForm.controls['store'];
+  status = this.updateProductForm.controls['status'];
+  issuedFor = this.updateProductForm.controls['issuedFor'];
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.params['id'];
 
     this.categoryService.getAll()
       .subscribe(categories => { this.categories = categories});
+
+    this.storeService.getAll()
+      .subscribe(stores => {this.stores = stores});
+
+    this.productStatus = this.getProductStatus();
+
+    this.setIssuedForValidation(parseInt(this.status.value));
+
+    this.status.valueChanges.subscribe(value => {
+      this.setIssuedForValidation(value);
+    })
 
     this.productService.getProduct(this.productId)
       .subscribe(product => {
@@ -49,6 +73,9 @@ export class ProductEditComponent implements OnInit {
         this.category.setValue(product.categoryId);
         this.price.setValue(product.price);
         this.serialNumber.setValue(product.serialNumber);
+        this.status.setValue(product.status);
+        this.store.setValue(product.storeId);
+        this.issuedFor.setValue(product.issuedFor)
       })
   }
 
@@ -62,7 +89,11 @@ export class ProductEditComponent implements OnInit {
       categoryId: parseInt(formValues.category),
       categoryName: "",
       price: formValues.price,
-      serialNumber: formValues.serialNumber
+      serialNumber: formValues.serialNumber,
+      storeId: parseInt(formValues.store),
+      storeName: "",
+      status: parseInt(formValues.status),
+      issuedFor: formValues.issuedFor
     };
     
 
@@ -75,7 +106,36 @@ export class ProductEditComponent implements OnInit {
     })
   }
 
+  onGenerateUUID(){
+    const newGuid = uuidv4();
+    this.serialNumber.setValue(newGuid);
+  }
 
 
+  setIssuedForValidation(statusValue: number): void {
+    if (statusValue == ProductStatus.Issued) {
+      this.showIssuedFor = true;
+      this.issuedFor?.setValidators([Validators.required, Validators.maxLength(200)]);
+    } else {
+      this.showIssuedFor = false;
+      this.issuedFor?.removeValidators([Validators.required, Validators.maxLength(200)]);
+    }
+
+    this.issuedFor?.updateValueAndValidity();
+  }
+
+  private getProductStatus(): {value: number, label: String}[] {
+    var statusArray = [];
+
+    for (const s in ProductStatus){
+      if (isNaN(Number(s))) {
+        statusArray.push(
+          { value: ProductStatus[s as keyof typeof ProductStatus], label: s.replaceAll('_', ' ') }
+        );
+      }
+    };
+
+    return statusArray;
+  }
 
 }

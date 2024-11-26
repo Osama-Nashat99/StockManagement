@@ -1,4 +1,5 @@
-﻿using StockManagement.Domain.Interfaces;
+﻿using StockManagement.Domain.Enums;
+using StockManagement.Domain.Interfaces;
 
 namespace StockManagement.Domain.Entities
 {
@@ -10,7 +11,11 @@ namespace StockManagement.Domain.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public decimal Price { get; set; }
-        public string SerialNumber { get; set; }
+        public string? SerialNumber { get; set; }
+        public int StoreId { get; set; }
+        public Store Store { get; set; }
+        public ProductStatus Status { get; set; }
+        public string? IssuedFor { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }

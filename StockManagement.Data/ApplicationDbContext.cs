@@ -7,6 +7,8 @@ namespace StockManagement.Data
     {
         public DbSet<Product> products { get; set; }
 
+        public DbSet<Store> stores { get; set; }
+
         public DbSet<Category> categories { get; set; }
 
         public DbSet<User> users { get; set; }

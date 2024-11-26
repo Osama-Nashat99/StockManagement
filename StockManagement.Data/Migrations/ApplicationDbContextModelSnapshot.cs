@@ -31,7 +31,8 @@ namespace StockManagement.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
@@ -39,7 +40,8 @@ namespace StockManagement.Data.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -98,7 +100,8 @@ namespace StockManagement.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
@@ -110,8 +113,13 @@ namespace StockManagement.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("IssuedFor")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -129,6 +137,12 @@ namespace StockManagement.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -136,6 +150,8 @@ namespace StockManagement.Data.Migrations
                     b.HasIndex("SerialNumber")
                         .IsUnique()
                         .HasFilter("[SerialNumber] IS NOT NULL");
+
+                    b.HasIndex("StoreId");
 
                     b.ToTable("Products", (string)null);
 
@@ -148,7 +164,9 @@ namespace StockManagement.Data.Migrations
                             Description = "A high-end smartphone with amazing features",
                             Name = "Smartphone XYZ",
                             Price = 799.00m,
-                            SerialNumber = "5a5d2376-c23a-4455-b388-8e36ae2ccfc6"
+                            SerialNumber = "f37d9670-31e3-4f0b-ad73-8796dfb88196",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -158,7 +176,9 @@ namespace StockManagement.Data.Migrations
                             Description = "A premium leather jacket for winter",
                             Name = "Stylish Leather Jacket",
                             Price = 120.00m,
-                            SerialNumber = "0f9bac5c-a46b-403a-8a68-39ee78d1409f"
+                            SerialNumber = "3bd2b3f9-76d0-4a10-ac87-cbe96cf2e36e",
+                            Status = 2,
+                            StoreId = 2
                         },
                         new
                         {
@@ -168,7 +188,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Noise-canceling wireless headphones",
                             Name = "Bluetooth Headphones",
                             Price = 150.00m,
-                            SerialNumber = "fcb71ce4-25d0-4031-9053-eadca828ec6e"
+                            SerialNumber = "22ff2eac-91b6-4b8c-a914-1b4d67f25e90",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -178,7 +200,9 @@ namespace StockManagement.Data.Migrations
                             Description = "A cozy winter jacket to keep you warm",
                             Name = "Winter Jacket",
                             Price = 80.00m,
-                            SerialNumber = "a3f0a58f-7400-43ee-856a-5c8ebe901be9"
+                            SerialNumber = "c826f33b-832c-4cd3-a39a-c91869a5fcd2",
+                            Status = 4,
+                            StoreId = 1
                         },
                         new
                         {
@@ -188,7 +212,9 @@ namespace StockManagement.Data.Migrations
                             Description = "A smartwatch with fitness tracking and notifications",
                             Name = "Smart Watch",
                             Price = 200.00m,
-                            SerialNumber = "36e3f9c5-e5b9-4f16-959b-a2bcdc76d701"
+                            SerialNumber = "b47c50f1-6b59-4079-a6f0-5344ba4b9661",
+                            Status = 1,
+                            StoreId = 2
                         },
                         new
                         {
@@ -198,7 +224,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Ultra HD LED TV with smart features",
                             Name = "LED TV",
                             Price = 500.00m,
-                            SerialNumber = "b7483350-cce4-4f04-b9a4-443d16df038c"
+                            SerialNumber = "4833dbe7-e8f1-4b73-be35-dd096c2176d8",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -208,7 +236,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Fast boiling electric kettle for quick tea or coffee",
                             Name = "Electric Kettle",
                             Price = 30.00m,
-                            SerialNumber = "50dc923f-c588-48a6-b981-4781f90a17d6"
+                            SerialNumber = "ce388e1d-a804-48fd-a5b2-2991cba84cad",
+                            Status = 4,
+                            StoreId = 2
                         },
                         new
                         {
@@ -218,7 +248,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Energy-efficient fridge with large capacity",
                             Name = "Refrigerator",
                             Price = 800.00m,
-                            SerialNumber = "e3b7d25f-5277-4e07-850f-8b9ff4855a36"
+                            SerialNumber = "0cf895a8-e50b-47ee-9230-5276a8434ef6",
+                            Status = 1,
+                            StoreId = 2
                         },
                         new
                         {
@@ -228,7 +260,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Water-resistant portable Bluetooth speaker",
                             Name = "Portable Speaker",
                             Price = 90.00m,
-                            SerialNumber = "8386f46f-3403-4196-a1cd-404722bf7d91"
+                            SerialNumber = "774904a8-9b46-484f-87bc-d77a5df82381",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -238,7 +272,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Healthy cooking with this modern air fryer",
                             Name = "Air Fryer",
                             Price = 150.00m,
-                            SerialNumber = "4db3ff0f-07ab-42f7-a0d2-6e95a13215a8"
+                            SerialNumber = "651271e9-0f22-42d3-b640-c399407eb233",
+                            Status = 2,
+                            StoreId = 1
                         },
                         new
                         {
@@ -248,7 +284,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Sonic electric toothbrush for cleaner teeth",
                             Name = "Electric Toothbrush",
                             Price = 60.00m,
-                            SerialNumber = "c138a585-3959-428b-8c1b-e75e6a9698b6"
+                            SerialNumber = "07a3d514-a39f-4eb3-903a-8eac2e4c1aca",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -258,7 +296,9 @@ namespace StockManagement.Data.Migrations
                             Description = "High-quality digital camera for photography enthusiasts",
                             Name = "Digital Camera",
                             Price = 400.00m,
-                            SerialNumber = "e2730a18-0e01-4e6b-8b19-fa4c1be2f491"
+                            SerialNumber = "266e73ac-d6ac-405b-93f1-f8314a30684d",
+                            Status = 1,
+                            StoreId = 2
                         },
                         new
                         {
@@ -266,9 +306,12 @@ namespace StockManagement.Data.Migrations
                             CategoryId = 3,
                             CreatedBy = "admin",
                             Description = "Ergonomic gaming mouse with customizable buttons",
+                            IssuedFor = "user",
                             Name = "Gaming Mouse",
                             Price = 50.00m,
-                            SerialNumber = "72a6e83c-a5e1-4d62-a3db-3792ab30fda7"
+                            SerialNumber = "dbfff037-2dd6-4984-88d6-b2fae59d2797",
+                            Status = 3,
+                            StoreId = 1
                         },
                         new
                         {
@@ -278,7 +321,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Adjustable desk lamp with LED lighting",
                             Name = "LED Desk Lamp",
                             Price = 40.00m,
-                            SerialNumber = "13d2eeaa-a58f-4273-a283-004a1c87a364"
+                            SerialNumber = "8a30c1a3-d4f5-4b7c-98d0-441e845a61ba",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -288,7 +333,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Magnetic phone mount for easy car navigation",
                             Name = "Car Phone Mount",
                             Price = 20.00m,
-                            SerialNumber = "c696ada0-c36c-4093-b628-3cf22475fc60"
+                            SerialNumber = "d73beb2a-7e51-488e-9c16-3e50bc9f9b5d",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -298,7 +345,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Spacious 4-person camping tent with waterproof design",
                             Name = "Camping Tent",
                             Price = 120.00m,
-                            SerialNumber = "7be829fb-1003-421f-bfda-cb1b46a2b718"
+                            SerialNumber = "d51cec3a-2a8f-4181-9800-58064a997339",
+                            Status = 4,
+                            StoreId = 2
                         },
                         new
                         {
@@ -308,7 +357,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Wi-Fi enabled smart thermostat for energy savings",
                             Name = "Smart Thermostat",
                             Price = 250.00m,
-                            SerialNumber = "4ffd8cbc-b5bd-42f2-bba0-47268e379132"
+                            SerialNumber = "4b15db37-9f21-424b-9524-21f7b5a4ba7a",
+                            Status = 4,
+                            StoreId = 2
                         },
                         new
                         {
@@ -318,7 +369,9 @@ namespace StockManagement.Data.Migrations
                             Description = "High-capacity portable power bank for smartphones",
                             Name = "Portable Charger",
                             Price = 40.00m,
-                            SerialNumber = "4f3f75dc-fd87-4468-b1c7-a550b7516aea"
+                            SerialNumber = "58fa5abf-4ca2-4a38-ba50-14548992ed67",
+                            Status = 2,
+                            StoreId = 1
                         },
                         new
                         {
@@ -326,9 +379,12 @@ namespace StockManagement.Data.Migrations
                             CategoryId = 1,
                             CreatedBy = "admin",
                             Description = "Durable and spacious backpack for laptops and accessories",
+                            IssuedFor = "user",
                             Name = "Laptop Backpack",
                             Price = 40.00m,
-                            SerialNumber = "f76ef7ff-240a-4989-b7d8-c3575939a808"
+                            SerialNumber = "538fa706-0499-4134-af2d-f7c528b40981",
+                            Status = 3,
+                            StoreId = 2
                         },
                         new
                         {
@@ -338,7 +394,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Sleek modern wall clock with a minimal design",
                             Name = "Wall Clock",
                             Price = 25.00m,
-                            SerialNumber = "76881290-6c05-495a-8160-027bffd4323f"
+                            SerialNumber = "76b80998-d196-48c9-ab63-b5369b0bc78a",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -348,7 +406,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Professional blow dryer with multiple heat settings",
                             Name = "Hair Dryer",
                             Price = 70.00m,
-                            SerialNumber = "b55dc73f-d093-4af1-bb0a-dd0ca4abf9f0"
+                            SerialNumber = "77157404-8e16-4ec3-945d-95968641b57e",
+                            Status = 1,
+                            StoreId = 2
                         },
                         new
                         {
@@ -356,9 +416,12 @@ namespace StockManagement.Data.Migrations
                             CategoryId = 4,
                             CreatedBy = "admin",
                             Description = "Blend your smoothies on the go with this portable blender",
+                            IssuedFor = "user",
                             Name = "Portable Blender",
                             Price = 45.00m,
-                            SerialNumber = "1f7a46b6-131f-4454-aa08-f091a5b7980b"
+                            SerialNumber = "f840d7c8-66ab-40e5-a77b-acc17df90430",
+                            Status = 3,
+                            StoreId = 2
                         },
                         new
                         {
@@ -368,7 +431,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Portable camping stove for outdoor cooking",
                             Name = "Camping Stove",
                             Price = 70.00m,
-                            SerialNumber = "7cdea6eb-d8a5-4db9-b133-a823fd29a593"
+                            SerialNumber = "05ac159d-200b-4293-a40d-3e74b8e800f3",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -378,7 +443,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Wearable fitness tracker to monitor daily activities",
                             Name = "Fitness Tracker",
                             Price = 130.00m,
-                            SerialNumber = "cc02b812-8602-47ae-9d84-9093ba430e4b"
+                            SerialNumber = "6c902155-b74b-4e80-9405-4514d79a62eb",
+                            Status = 1,
+                            StoreId = 1
                         },
                         new
                         {
@@ -386,9 +453,12 @@ namespace StockManagement.Data.Migrations
                             CategoryId = 1,
                             CreatedBy = "admin",
                             Description = "Ergonomic gaming chair with adjustable armrests",
+                            IssuedFor = "user",
                             Name = "Gaming Chair",
                             Price = 180.00m,
-                            SerialNumber = "c8e7458e-a7e3-4beb-9650-6322e7f21b43"
+                            SerialNumber = "2f946330-3999-47f6-817e-8d9d840c9e10",
+                            Status = 3,
+                            StoreId = 1
                         },
                         new
                         {
@@ -398,7 +468,9 @@ namespace StockManagement.Data.Migrations
                             Description = "Eco-friendly solar charger for your devices",
                             Name = "Solar Charger",
                             Price = 35.00m,
-                            SerialNumber = "a3c6fc60-5e39-4585-b209-c57e5a78e1c5"
+                            SerialNumber = "de1b3592-c371-4d1c-8570-bd7c6078faec",
+                            Status = 1,
+                            StoreId = 2
                         },
                         new
                         {
@@ -408,7 +480,65 @@ namespace StockManagement.Data.Migrations
                             Description = "Home air purifier with HEPA filter for cleaner air",
                             Name = "Air Purifier",
                             Price = 150.00m,
-                            SerialNumber = "eab010d3-1af2-465e-8c74-8a2b1cc4eab8"
+                            SerialNumber = "3131938f-c4b3-4a85-b5f9-357eb3c4eb39",
+                            Status = 1,
+                            StoreId = 1
+                        });
+                });
+
+            modelBuilder.Entity("StockManagement.Domain.Entities.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("StoreKeeperId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreKeeperId")
+                        .IsUnique();
+
+                    b.ToTable("Stores", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "admin",
+                            Name = "Store 1",
+                            StoreKeeperId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "admin",
+                            Name = "Store 2",
+                            StoreKeeperId = 2
                         });
                 });
 
@@ -421,7 +551,8 @@ namespace StockManagement.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
@@ -442,7 +573,8 @@ namespace StockManagement.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -476,7 +608,7 @@ namespace StockManagement.Data.Migrations
                             FirstName = "admin",
                             IsFirstLogin = false,
                             LastName = "admin",
-                            Password = "AQAAAAIAAYagAAAAEDum2iRiutnvrIxksx260617eJZ5/frmQHNpcaEP27j39MWIxPKHhv2ntx5/nfMeTw==",
+                            Password = "AQAAAAIAAYagAAAAEBmmQlp0o9/PqVQcEjJ5oNpr1RxHPVpnOyGBscpUHbSXCl7kzQEVegBMjXDTFM/Ydg==",
                             Role = 1,
                             Username = "admin"
                         },
@@ -487,7 +619,7 @@ namespace StockManagement.Data.Migrations
                             FirstName = "user",
                             IsFirstLogin = false,
                             LastName = "user",
-                            Password = "AQAAAAIAAYagAAAAEKdGQFx6nUc7WD3b5LU2dBKnJm0+JoJeT386V26RG+9LtONU47329rCacuooACFtnQ==",
+                            Password = "AQAAAAIAAYagAAAAEGdZtz5RkGhUDdGEeKNmKCJDPTinAGa973qimlZil+OrKHz9o0J/f7c5wgLcsjmOFA==",
                             Role = 2,
                             Username = "user"
                         });
@@ -501,10 +633,34 @@ namespace StockManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StockManagement.Domain.Entities.Store", "Store")
+                        .WithMany("Products")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("StockManagement.Domain.Entities.Store", b =>
+                {
+                    b.HasOne("StockManagement.Domain.Entities.User", "StoreKeeper")
+                        .WithOne()
+                        .HasForeignKey("StockManagement.Domain.Entities.Store", "StoreKeeperId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("StoreKeeper");
                 });
 
             modelBuilder.Entity("StockManagement.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("StockManagement.Domain.Entities.Store", b =>
                 {
                     b.Navigation("Products");
                 });

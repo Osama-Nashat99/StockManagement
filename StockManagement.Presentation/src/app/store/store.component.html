@@ -1,0 +1,85 @@
+<div>
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <app-export-to-excel [items]="storesList" title="Stores"></app-export-to-excel>
+      </div>
+      <div>
+        <div class="d-flex align-items-center">
+          <input [(ngModel)]="search" (keyup)="filterStores($event)"  type="text" class="form-control me-3 py-2 filter" placeholder="Search by store name" />
+          <a *ngIf="isAdmin()" class="btn btn-light btn-sm px-3 py-2 fw-bold text-nowrap" routerLink="/stores/add"><i class="bi bi-plus-lg"></i> Add New</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="rounded-3 p-2 mt-2 bg-white">
+      <table class="table table-hover rounded-start-3">
+        <thead>
+            <tr>
+                <th scope="col" (click)="sort('id')">
+                  ID
+                  <span *ngIf="sortedColumn === 'id'">
+                    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                  </span>
+                </th>
+                <th scope="col" (click)="sort('name')">
+                  Name
+                  <span *ngIf="sortedColumn === 'name'">
+                    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                  </span>
+                </th>
+                
+                <th scope="col" (click)="sort('storeKeeperId')">
+                    Store Keeper
+                    <span *ngIf="sortedColumn === 'storeKeeperId'">
+                      {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                    </span>
+                  </th>
+                
+                <th *ngIf="isAdmin()" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="!loading && storesList.length > 0">
+            <tr *ngFor="let store of storesList">
+                <th scope="row">{{store.id}}</th>
+                <td>{{store.name}}</td>
+                <td>{{store.storeKeeperName}}</td>
+                <td *ngIf="isAdmin()">
+                  <a class="btn btn-link" [routerLink]="'edit/' + store.id">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  |
+                  <button class="btn btn-link text-danger" (click)="deleteStore(store.id, store.name)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+            </tr>
+        </tbody>
+  
+        <tbody *ngIf="!loading && storesList.length <= 0">
+            <tr>
+                <td colspan="7" class="text-body-tertiary text-center">No stores are available</td>
+            </tr>
+        </tbody>
+  
+        <tbody *ngIf="loading">
+          <tr>
+            <td colspan="7" class="text-body-tertiary text-center">
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <mat-paginator
+          [length]="totalStores"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+  

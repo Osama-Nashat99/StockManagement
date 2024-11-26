@@ -18,9 +18,9 @@ namespace StockManagement.Data.Configurations
             builder.Property("Role").HasMaxLength(100).IsRequired(true);
             builder.Property("IsFirstLogin").HasDefaultValue(true);
             builder.Property("CreatedDate").HasDefaultValueSql("GETDATE()");
-            builder.Property("CreatedBy").IsRequired(false);
+            builder.Property("CreatedBy").HasMaxLength(200).IsRequired(false);
             builder.Property("ModifiedDate").IsRequired(false);
-            builder.Property("ModifiedBy").IsRequired(false);
+            builder.Property("ModifiedBy").HasMaxLength(200).IsRequired(false);
             builder.ToTable("Users");
 
             builder.HasIndex(u => u.Username).IsUnique();

@@ -13,6 +13,9 @@ import { BlankLayoutComponent } from './blank-layout/blank-layout.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoryAddComponent } from './category/category-add/category-add.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { StoreComponent } from './store/store.component';
+import { StoreAddComponent } from './store/store-add/store-add.component';
+import { StoreEditComponent } from './store/store-edit/store-edit.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +31,9 @@ export const routes: Routes = [
       { path: "products", component: ProductComponent },
       { path: "products/add", component: ProductAddComponent, canActivate: [AdminGuard] },
       { path: "products/edit/:id", component: ProductEditComponent, canActivate: [AdminGuard]},
+      { path: "stores", component: StoreComponent },
+      { path: "stores/add", component: StoreAddComponent, canActivate: [AdminGuard] },
+      { path: "stores/edit/:id", component: StoreEditComponent, canActivate: [AdminGuard] },
       { path: "password/reset", component: ResetPasswordComponent }
     ]
   },

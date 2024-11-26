@@ -47,13 +47,48 @@
               <div class="mb-3 col-md-6">
                   <label for="serialNumber" class="form-label">Serial Number</label>
                   <input formControlName="serialNumber" type="text" class="form-control" id="serialNumber">
+                  <button type="button" class="btn btn-link btn-sm" (click)="onGenerateUUID()">Auto generate</button>
                   <span class="validation-message" *ngIf="serialNumber.invalid && serialNumber.touched">
                     Serial number should be less than 500 characters.
                 </span>
               </div>
           </div>
 
-          <button class="btn btn-primary me-2" type="submit" [disabled]="updateProductForm.invalid">Update</button>
-      </form>
-  </div>
+          <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="store" class="form-label">Store <span>*</span></label>
+                <select formControlName="store" class="form-select">
+                    <option value="">Select</option>
+                    <option *ngFor="let s of stores" [value]="s.id">{{s.name}}</option>
+                </select>
+                <span class="validation-message" *ngIf="store.invalid && store.touched">
+                    Please select a store.
+                </span>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="status" class="form-label">Status <span>*</span></label>
+                <select formControlName="status" class="form-select">
+                    <option value="">Select</option>
+                    <option *ngFor="let s of productStatus" [value]="s.value">{{s.label}}</option>
+                </select>
+                <span class="validation-message" *ngIf="status.invalid && status.touched">
+                    Please select a status.
+                </span>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="showIssuedFor">
+            <div class="mb-3 col-md-6">
+                <label for="issuedFor" class="form-label">Issued For <span>*</span></label>
+                <input formControlName="issuedFor" type="text" class="form-control" id="issuedFor" placeholder="Issued for">
+                <span class="validation-message" *ngIf="issuedFor.invalid && issuedFor.touched">
+                    Please provide a valid issued for.
+                </span>
+            </div>
+        </div>
+
+        <button class="btn btn-primary me-2" type="submit" [disabled]="updateProductForm.invalid">Update</button>
+    </form>
+</div>
 

@@ -6,5 +6,9 @@ export interface Product {
     categoryId: number,
     categoryName: string,
     price: number,
-    serialNumber: string | null
+    serialNumber: string | null,
+    storeId: number,
+    storeName: string,
+    status: number,
+    issuedFor: string | null
 };

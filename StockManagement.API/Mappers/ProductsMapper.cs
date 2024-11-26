@@ -21,7 +21,11 @@ namespace StockManagement.API.Mappers
                 CategoryId = p.CategoryId,
                 CategoryName = p.Category.Name,
                 Price = p.Price,
-                SerialNumber = p.SerialNumber
+                SerialNumber = p.SerialNumber,
+                StoreId = p.StoreId,
+                StoreName = p.Store.Name,
+                Status = p.Status,
+                IssuedFor = p.IssuedFor
             });
 
             return dto;
@@ -37,7 +41,11 @@ namespace StockManagement.API.Mappers
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category.Name,
                 Price = product.Price,
-                SerialNumber = product.SerialNumber
+                SerialNumber = product.SerialNumber,
+                StoreId = product.StoreId,
+                StoreName = product.Store.Name,
+                Status = product.Status,
+                IssuedFor = product.IssuedFor
             };
         }
 
@@ -50,7 +58,10 @@ namespace StockManagement.API.Mappers
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 Price = product.Price,
-                SerialNumber = product.SerialNumber
+                SerialNumber = product.SerialNumber,
+                StoreId = product.StoreId,
+                Status = product.Status,
+                IssuedFor = product.IssuedFor
             };
         }
 
@@ -62,7 +73,10 @@ namespace StockManagement.API.Mappers
                 Description = dto.Description,
                 CategoryId = dto.CategoryId,
                 Price = dto.Price,
-                SerialNumber = dto.SerialNumber
+                SerialNumber = dto.SerialNumber,
+                StoreId = dto.StoreId,
+                Status = dto.Status,
+                IssuedFor = dto.IssuedFor
             };
         }
     }

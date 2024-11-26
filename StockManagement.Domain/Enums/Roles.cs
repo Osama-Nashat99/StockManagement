@@ -3,6 +3,7 @@
     public enum Roles
     {
         Admin = 1,
-        User = 2
+        User = 2,
+        Stock_Keeper = 3
     }
 }

@@ -11,5 +11,9 @@ namespace StockManagement.API.Dtos
         public string CategoryName { get; set; }
         public decimal Price { get; set; }
         public string? SerialNumber { get; set; }
+        public int StoreId { get; set; }
+        public string StoreName { get; set; }
+        public ProductStatus Status { get; set; }
+        public string? IssuedFor { get; set; }
     }
 }

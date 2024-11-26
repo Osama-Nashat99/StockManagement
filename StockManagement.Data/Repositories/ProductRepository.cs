@@ -19,7 +19,7 @@ namespace StockManagement.Data.Repositories
         {
             FetchModel<Product> model = new FetchModel<Product>();
 
-            IQueryable<Product> productsQuery = _db.products.Include(p => p.Category).AsQueryable();
+            IQueryable<Product> productsQuery = _db.products.Include(p => p.Category).Include(p => p.Store).AsQueryable();
 
             model.TotalEntities = await productsQuery.CountAsync();
 
@@ -47,12 +47,11 @@ namespace StockManagement.Data.Repositories
             model.Entities = productsList;
 
             return model;
-
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _db.products.Include(p => p.Category).AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
+            return await _db.products.Include(p => p.Category).Include(p => p.Store).AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Product> AddAsync(Product product)
@@ -73,6 +72,11 @@ namespace StockManagement.Data.Repositories
         {
             _db.Remove(product);
             _db.SaveChanges();
+        }
+
+        public async Task<bool> IsSerialNumberExistsAsync(string serialNumber)
+        {
+            return await _db.products.AnyAsync(p => p.SerialNumber == serialNumber);
         }
     }
 }

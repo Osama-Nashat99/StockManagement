@@ -100,5 +100,10 @@ namespace StockManagement.Data.Repositories
             _db.Remove(user);
             _db.SaveChanges();
         }
+
+        public async Task<bool> IsUserExistsAsync(int id)
+        {
+            return await _db.users.AnyAsync(u => u.Id == id);
+        }
     }
 }

@@ -11,9 +11,9 @@ namespace StockManagement.Data.Configurations
             builder.HasKey(u => u.Id);
             builder.Property("Name").HasMaxLength(200).IsRequired(true);
             builder.Property("CreatedDate").HasDefaultValueSql("GETDATE()");
-            builder.Property("CreatedBy").IsRequired(false);
+            builder.Property("CreatedBy").HasMaxLength(200).IsRequired(false);
             builder.Property("ModifiedDate").IsRequired(false);
-            builder.Property("ModifiedBy").IsRequired(false);
+            builder.Property("ModifiedBy").HasMaxLength(200).IsRequired(false);
 
             LoadCategories(builder);
         }

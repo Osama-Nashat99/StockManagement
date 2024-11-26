@@ -29,7 +29,11 @@ namespace StockManagement.API.Controllers
         [HttpPost]
         public UserDto Post([FromBody] UserDto userDto)
         {
-            var user = _userService.AddUser(UsersMapper.ToUserEntity(userDto));
+            var username = HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = UsersMapper.ToUserEntity(userDto);
+            user.CreatedBy = username;
+
+            user = _userService.AddUser(user);
             return UsersMapper.ToUserDto(user);
         }
 

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
+using StockManagement.Domain.Enums;
 using StockManagement.Domain.Services;
 
 namespace StockManagement.API.Controllers
@@ -42,6 +44,9 @@ namespace StockManagement.API.Controllers
             if (string.IsNullOrEmpty(product.SerialNumber))
                 product.SerialNumber = null;
 
+            if (string.IsNullOrEmpty(product.IssuedFor))
+                product.IssuedFor = null;
+
             product = _productService.AddProduct(product);
             return ProductsMapper.ToAddProductDto(product);
         }
@@ -57,6 +62,9 @@ namespace StockManagement.API.Controllers
 
             if (string.IsNullOrEmpty(product.SerialNumber))
                 product.SerialNumber = null;
+
+            if (string.IsNullOrEmpty(product.IssuedFor) || product.Status != ProductStatus.Issued)
+                product.IssuedFor = null;
 
             product = _productService.UpdateProduct(id, product);
             return ProductsMapper.ToAddProductDto(product);
