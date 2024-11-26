@@ -2,19 +2,15 @@
     <div class="d-flex justify-content-between">
       <div class="d-flex align-items-center">
         <app-export-to-excel [items]="categoriesList" title="Categories"></app-export-to-excel>
-        <button class="btn btn-danger btn-sm px-3 py-2 ms-2 fw-bold"><i class="bi bi-trash pe-2"></i> Delete</button>
       </div>
       <div>
         <div class="d-flex align-items-center">
           <input [(ngModel)]="search" (keyup)="filterCategories($event)"  type="text" class="form-control me-3 py-2 filter" placeholder="Search by category name" />
-          <a class="btn btn-light btn-sm px-3 py-2 fw-bold text-nowrap" routerLink="/categories/add"><i class="bi bi-plus-lg"></i> Add New</a>
+          <a *ngIf="isAdmin()" class="btn btn-light btn-sm px-3 py-2 fw-bold text-nowrap" routerLink="/categories/add"><i class="bi bi-plus-lg"></i> Add New</a>
         </div>
       </div>
-  
-  
-  
     </div>
-  
+
     <div class="rounded-3 p-2 mt-2 bg-white">
       <table class="table table-hover rounded-start-3">
         <thead>
@@ -31,21 +27,27 @@
                     {{ sortDirection === 'asc' ? '▲' : '▼' }}
                   </span>
                 </th>
+                <th *ngIf="isAdmin()" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody *ngIf="!loading && categoriesList.length > 0">
             <tr *ngFor="let category of categoriesList">
                 <th scope="row">{{category.id}}</th>
                 <td>{{category.name}}</td>
+                <td *ngIf="isAdmin()">
+                  <button class="btn btn-link text-danger" (click)="deleteCategory(category.id, category.name)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
             </tr>
         </tbody>
-  
+
         <tbody *ngIf="!loading && categoriesList.length <= 0">
             <tr>
                 <td colspan="7" class="text-body-tertiary text-center">No Categories are available</td>
             </tr>
         </tbody>
-  
+
         <tbody *ngIf="loading">
           <tr>
             <td colspan="7" class="text-body-tertiary text-center">
@@ -58,7 +60,7 @@
           </tr>
         </tbody>
       </table>
-  
+
       <mat-paginator
           [length]="totalCategories"
           [pageSize]="pageSize"

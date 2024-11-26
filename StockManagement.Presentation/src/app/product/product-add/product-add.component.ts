@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { ProductService } from '../../../services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
-import { HeaderComponent } from '../../header/header.component';
 import { Product } from '../../../models/Product.model';
 import { CategoryService } from '../../../services/category.service';
 import { Category } from '../../../models/Category.model';
@@ -12,7 +11,7 @@ import { Category } from '../../../models/Category.model';
 @Component({
   selector: 'app-product-add',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })

@@ -5,10 +5,14 @@ namespace StockManagement.Domain.Interfaces
 {
     public interface ICategoryRepository
     {
-        public Task<IEnumerable<Category>> Get();
+        public Task<Category> GetById(int id);
+
+        public Task<IEnumerable<Category>> GetAll();
 
         Task<FetchModel<Category>> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc");
 
-        Task<Category> Create(Category category);
+        Task<Category> AddAsync(Category category);
+
+        void Delete(Category category);
     }
 }

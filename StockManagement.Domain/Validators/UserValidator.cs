@@ -1,5 +1,6 @@
 ﻿using StockManagement.Domain.Entities;
 using StockManagement.Domain.Enums;
+using StockManagement.Domain.Exceptions;
 using StockManagement.Domain.Interfaces;
 using System.Net;
 
@@ -14,21 +15,19 @@ namespace StockManagement.Domain.Validators
             _userRepository = userRepository;
         }
 
-        public Result<User> AddUserValidation(User user)
+        public void AddUserValidation(User user)
         {
             if (string.IsNullOrEmpty(user.Username))
-                return Result<User>.Failure("Username is required", HttpStatusCode.BadRequest);
+                throw new BadRequestException("Username is required");
 
             if (string.IsNullOrEmpty(user.FirstName))
-                return Result<User>.Failure("First name is required", HttpStatusCode.BadRequest);
+                throw new BadRequestException("First name is required");
 
             if (string.IsNullOrEmpty(user.LastName))
-                return Result<User>.Failure("Last name is required", HttpStatusCode.BadRequest);
+                throw new BadRequestException("Last name is required");
 
             if (!Enum.IsDefined(typeof(Roles), user.Role))
-                return Result<User>.Failure("Role is not valid", HttpStatusCode.BadRequest);
-
-            return Result<User>.Success(user);
+                throw new BadRequestException("Role is not valid");
         }
     }
 }

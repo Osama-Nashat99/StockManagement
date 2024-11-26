@@ -20,7 +20,7 @@ namespace StockManagement.API.Controllers
         [HttpGet()]
         public IEnumerable<CategoryDto> Get()
         {
-            var categories = _categoryService.Get();
+            var categories = _categoryService.GetAll();
             return CategoryMapper.ToCategoryDto(categories);
         }
 
@@ -39,6 +39,14 @@ namespace StockManagement.API.Controllers
             var category = CategoryMapper.ToCategoryEntity(categoryDto);
             category.CreatedBy = username;
             category = _categoryService.AddCategory(category);
+            return CategoryMapper.ToCategoryDto(category);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete("{id}")]
+        public CategoryDto Delete(int id)
+        {
+            var category = _categoryService.DeleteCategory(id);
             return CategoryMapper.ToCategoryDto(category);
         }
     }

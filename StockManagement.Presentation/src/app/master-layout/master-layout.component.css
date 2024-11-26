@@ -181,6 +181,7 @@
 .home-section .home-nav .profile-name-container{
   margin-right: 35px;
   position: relative;
+  min-width: 135px;
 }
 .home-section .home-nav .profile_name{
   color: #000;

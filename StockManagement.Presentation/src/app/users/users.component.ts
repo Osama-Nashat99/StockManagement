@@ -10,6 +10,9 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExportToExcelComponent } from '../export-to-excel/export-to-excel.component';
 import { Role } from '../../enums/role.enum';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-users',
@@ -34,7 +37,7 @@ export class UsersComponent implements OnInit {
   sortedColumn: string = 'id';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private userService: UserService, private authService: AuthService){}
+  constructor(private userService: UserService, private authService: AuthService, private dialog: MatDialog, private snackBar: MatSnackBar){}
 
   ngOnInit(): void {
 
@@ -91,6 +94,29 @@ export class UsersComponent implements OnInit {
   filterUsers(event: KeyboardEvent): void {
     const inputValue = (event.target as HTMLInputElement).value;
     this.searchSubject.next(inputValue);
+  }
+
+  deleteUser(id: number, username: string): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Delete Product',
+        message: 'Are you sure you want to delete ' + username +'?',
+        confirmButtonContent: 'Confirm'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userService.deleteUser(id).subscribe({
+          next: () => {
+            this.snackBar.open('User deleted successfuly', 'Done', {
+              duration: 3000
+            });
+            this.paginationSortSubject.next();
+          }
+        });
+      }
+    });
   }
 
   sort(column: string): void {

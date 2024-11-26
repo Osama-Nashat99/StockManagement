@@ -29,7 +29,7 @@ namespace StockManagement.Domain.Services
 
         public Product GetProductById(int id)
         {   
-            var result = _validator.GetByIdValidation(id);
+            _validator.GetByIdValidation(id);
             
             Product product = _productRepository.GetByIdAsync(id).Result;
 
@@ -41,7 +41,7 @@ namespace StockManagement.Domain.Services
 
         public Product AddProduct(Product product) 
         {
-            var result = _validator.AddProductValidation(product);
+            _validator.AddProductValidation(product);
 
             product = _productRepository.AddAsync(product).Result;
 
@@ -53,7 +53,7 @@ namespace StockManagement.Domain.Services
 
         public Product UpdateProduct(int id, Product product)
         {
-            var result = _validator.UpdateProductValidation(id, product);
+            _validator.UpdateProductValidation(id, product);
 
             product.Id = id;
             product = _productRepository.Update(product);
@@ -63,7 +63,7 @@ namespace StockManagement.Domain.Services
 
         public Product DeleteProduct(int id)
         {
-            var result = _validator.DeleteProductValidation(id);
+            _validator.DeleteProductValidation(id);
 
             Product product = _productRepository.GetByIdAsync(id).Result;
 

@@ -15,9 +15,9 @@ namespace StockManagement.Domain.Services
             _categoryRepository = categoryRepository;
         }
 
-        public IEnumerable<Category> Get()
+        public IEnumerable<Category> GetAll()
         {
-            IEnumerable<Category> categories = _categoryRepository.Get().Result;
+            IEnumerable<Category> categories = _categoryRepository.GetAll().Result;
 
             if (categories == null)
                 throw new NotFoundException("No category were found");
@@ -40,11 +40,25 @@ namespace StockManagement.Domain.Services
             if (string.IsNullOrEmpty(category.Name))
                 throw new Exception("Category name is required");
 
-            category = _categoryRepository.Create(category).Result;
+            category = _categoryRepository.AddAsync(category).Result;
 
             if (category == null || category.Id <= 0)
                 throw new Exception("Category was not added");
 
+            return category;
+        }
+
+        public Category DeleteCategory(int id)
+        {
+            if (id == 0)
+                throw new BadRequestException("Id should be greater than 0");
+
+            Category category = _categoryRepository.GetById(id).Result;
+
+            if (category == null)
+                throw new NotFoundException($"Category with id {id} was not found");
+
+            _categoryRepository.Delete(category);
             return category;
         }
     }

@@ -1,17 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/Product.model';
 import { NgFor, NgIf } from '@angular/common';
 import { category } from '../../enums/category.enum';
-import { catchError, debounceTime, finalize, Observable, Subject, switchMap } from 'rxjs';
+import { debounceTime, Subject, switchMap } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { RouterLink } from '@angular/router';
 import { MatPaginatorModule, PageEvent,  } from '@angular/material/paginator';
 import { ExportToExcelComponent } from '../export-to-excel/export-to-excel.component';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../services/auth.service';
 import { Filter } from '../../models/Filter.model';
-import { FetchProducts } from '../../models/FetchProducts.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-product',
@@ -35,7 +36,7 @@ export class ProductComponent implements OnInit {
   sortedColumn: string = 'id';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private productService: ProductService, private authService: AuthService){}
+  constructor(private productService: ProductService, private authService: AuthService, private dialog: MatDialog, private snackBar: MatSnackBar){}
 
   ngOnInit(): void {
 
@@ -81,6 +82,29 @@ export class ProductComponent implements OnInit {
     });
 
     this.paginationSortSubject.next();
+  }
+
+  deleteProduct(id: number, name: string): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Delete Product',
+        message: 'Are you sure you want to delete ' + name +'?',
+        confirmButtonContent: 'Confirm'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.productService.deleteProduct(id).subscribe({
+          next: () => {
+            this.snackBar.open('Product deleted successfuly', 'Done', {
+              duration: 3000
+            });
+            this.paginationSortSubject.next();
+          }
+        });
+      }
+    });
   }
 
   onPageChange(event: PageEvent): void {

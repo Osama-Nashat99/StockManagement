@@ -28,36 +28,22 @@ namespace StockManagement.Domain.Services
             return usersModel;
         }
 
-        public User Get(string username, string password) 
-        { 
-            User user = _userRepository.Get(username, password).Result;
-
-            if (user == null)
-                throw new NotFoundException("User not found");
-
-            return user;
-        }
-
         public User GetByUsername(string username) 
         {
             User user = _userRepository.GetByUsername(username).Result;
-
-            if (user == null)
-                throw new NotFoundException("User not found");
-
             return user;
         }
 
         public User AddUser(User user) {
 
-            var result = _validator.AddUserValidation(user);
+            _validator.AddUserValidation(user);
 
             var searchedUser = GetByUsername(user.Username);
 
             if (searchedUser != null)
                 throw new BadRequestException("Username is already used");
 
-            user = _userRepository.Create(user).Result;
+            user = _userRepository.AddAsync(user).Result;
 
             if (user == null || user.Id <= 0)
                 throw new Exception("User was not added");
@@ -68,10 +54,20 @@ namespace StockManagement.Domain.Services
         public User UpdatePassword(int id, string password)
         {
             User user = _userRepository.UpdatePassword(id, password);
+            return user;
+        }
+
+        public User DeleteUser(int id)
+        {
+            if (id == 0)
+                throw new BadRequestException("Id should be greater than 0");
+
+            User user = _userRepository.GetByIdAsync(id).Result;
 
             if (user == null)
-                throw new NotFoundException("User was not found");
+                throw new NotFoundException($"User with id {id} was not found");
 
+            _userRepository.Delete(user);
             return user;
         }
     }

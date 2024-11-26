@@ -15,9 +15,20 @@ namespace StockManagement.Data.Repositories
             _db = applicationDbContext;
         }
 
-        public async Task<IEnumerable<Category>> Get()
+        public async Task<IEnumerable<Category>> GetAll()
         {
             return await _db.categories.ToListAsync();
+        }
+
+        public void Delete(Category category)
+        {
+            _db.Remove(category);
+            _db.SaveChanges();
+        }
+
+        public async Task<Category> GetById(int id)
+        {
+            return await _db.categories.AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<FetchModel<Category>> FetchAsync(int pageNumber = 1, int pageSize = 10, string searchFilter = "", string sortBy = "id", string sortDirection = "asc")
@@ -53,7 +64,7 @@ namespace StockManagement.Data.Repositories
             return model;
         }
 
-        public async Task<Category> Create(Category category)
+        public async Task<Category> AddAsync(Category category)
         {
             await _db.categories.AddAsync(category);
             await _db.SaveChangesAsync();

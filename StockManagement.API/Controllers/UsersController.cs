@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
@@ -37,6 +38,14 @@ namespace StockManagement.API.Controllers
         public UserDto ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             var user = _userService.UpdatePassword(id, resetPasswordDto.Password);
+            return UsersMapper.ToUserDto(user);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete("{id}")]
+        public UserDto Delete(int id)
+        {
+            var user = _userService.DeleteUser(id);
             return UsersMapper.ToUserDto(user);
         }
     }

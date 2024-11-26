@@ -23,7 +23,7 @@ export const routes: Routes = [
       { path: '',   redirectTo: 'products', pathMatch: 'full' },
       { path: 'users', component: UsersComponent, canActivate: [AdminGuard]},
       { path: "users/add", component: UsersAddComponent, canActivate: [AdminGuard] },
-      { path: 'categories', component: CategoryComponent, canActivate: [AdminGuard]},
+      { path: 'categories', component: CategoryComponent},
       { path: 'categories/add', component: CategoryAddComponent, canActivate: [AdminGuard]},
       { path: "products", component: ProductComponent },
       { path: "products/add", component: ProductAddComponent, canActivate: [AdminGuard] },

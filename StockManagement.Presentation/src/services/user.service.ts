@@ -28,6 +28,10 @@ import { ResetPassword } from "../models/ResetPassword.model";
       return this.http.post<User>(`${this.baseUrl}/users`, user, {headers})
     }
 
+    deleteUser(id: number) {
+      return this.http.delete(`${this.baseUrl}/users/${id}`);
+    }
+
     resetPassword(id: number, resetPassword: ResetPassword){
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',

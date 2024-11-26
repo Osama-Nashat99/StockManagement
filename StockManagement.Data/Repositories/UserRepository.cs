@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Domain.Entities;
+using StockManagement.Domain.Exceptions;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
 using System.Linq.Expressions;
@@ -52,17 +53,12 @@ namespace StockManagement.Data.Repositories
 
         }
 
-        public async Task<User> Get(string username, string password)
-        {
-            return await _db.users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
-        }
-
         public async Task<User> GetByUsername(string username)
         {
             return await _db.users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<User> Create(User user)
+        public async Task<User> AddAsync(User user)
         {
             user.Password = "pass123";
             user.Password = _passwordHasher.HashPassword(user, user.Password);
@@ -77,7 +73,7 @@ namespace StockManagement.Data.Repositories
             User user = _db.users.Find(id);
 
             if (user == null)
-                return user;
+                throw new NotFoundException("User was not found");
 
             user.Password = _passwordHasher.HashPassword(user, password);
             user.IsFirstLogin = false;
@@ -92,6 +88,17 @@ namespace StockManagement.Data.Repositories
         {
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, enteredPassword);
             return result == PasswordVerificationResult.Success;
+        }
+
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return await _db.users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == id);
+        }
+
+        public void Delete(User user)
+        {
+            _db.Remove(user);
+            _db.SaveChanges();
         }
     }
 }

@@ -9,6 +9,9 @@ import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExportToExcelComponent } from '../export-to-excel/export-to-excel.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-category',
@@ -32,7 +35,7 @@ export class CategoryComponent {
   sortedColumn: string = 'id';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private categoriesService: CategoryService, private authService: AuthService){}
+  constructor(private categoriesService: CategoryService, private authService: AuthService, private dialog: MatDialog, private snackBar: MatSnackBar){}
 
   ngOnInit(): void {
 
@@ -91,6 +94,28 @@ export class CategoryComponent {
     this.searchSubject.next(inputValue);
   }
 
+  deleteCategory(id: number, name: string): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Delete Category',
+        message: 'Are you sure you want to delete ' + name +'?',
+        confirmButtonContent: 'Confirm'
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.categoriesService.deleteCategory(id).subscribe({
+          next: () => {
+            this.snackBar.open('Category deleted successfuly', 'Done', {
+              duration: 3000
+            });
+            this.paginationSortSubject.next();
+          }
+        });
+      }
+    });
+  }
+
   sort(column: string): void {
     if (this.sortedColumn === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -99,5 +124,9 @@ export class CategoryComponent {
       this.sortDirection = 'asc';
     }
     this.paginationSortSubject.next();
+  }
+
+  isAdmin(): boolean{
+    return this.authService.isAdmin();
   }
 }

@@ -9,15 +9,15 @@ import { FetchCategories } from "../models/FetchCategories.model";
     providedIn: 'root'
   })
   export class CategoryService {
-  
+
     constructor(private http: HttpClient) { }
-  
+
     baseUrl: string = 'https://localhost:7092/api';
 
     fetchAll(filter: Filter): Observable<FetchCategories> {
       return this.http.post<FetchCategories>(`${this.baseUrl}/categories/fetch`, filter);
     }
-    
+
     getAll(): Observable<Category[]> {
       return this.http.get<Category[]>(`${this.baseUrl}/categories`);
     }
@@ -30,5 +30,9 @@ import { FetchCategories } from "../models/FetchCategories.model";
 
       return this.http.post<Category>(`${this.baseUrl}/categories`, category, {headers})
     }
-    
+
+    deleteCategory(id: number) {
+      return this.http.delete(`${this.baseUrl}/categories/${id}`);
+    }
+
   }
