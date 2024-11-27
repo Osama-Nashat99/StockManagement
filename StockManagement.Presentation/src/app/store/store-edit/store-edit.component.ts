@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../../../models/User.model';
 import { Store } from '../../../models/Store.model';
+import { Role } from '../../../enums/role.enum';
 
 @Component({
   selector: 'app-store-edit',
@@ -34,6 +35,18 @@ export class StoreEditComponent {
       .subscribe(store => {
         this.name.setValue(store.name);
         this.storeKeeperId.setValue(store.storeKeeperId);
+
+        var storeKeeper: User = {
+          id: store.storeKeeperId,
+          username: store.storeKeeperName,
+          firstName: "",
+          lastName: "",
+          role: Role.Store_Keeper
+        };
+
+        console.log(storeKeeper);
+
+        this.storeKeepers.push(storeKeeper);
       })
   }
 

@@ -10,3 +10,7 @@ input::placeholder {
 th {
   cursor: pointer;
 }
+
+td {
+  font-size: 14px;
+}

@@ -13,6 +13,7 @@ import { Filter } from '../../models/Filter.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ProductStatus } from '../../enums/productStatus.enum';
 
 @Component({
   selector: 'app-product',
@@ -134,6 +135,15 @@ export class ProductComponent implements OnInit {
 
   isAdmin(): boolean{
     return this.authService.isAdmin();
+  }
+
+  getStatusLabel(status: number, issuedFor: string | null) {
+    if ( status == ProductStatus.Issued) {
+      return 'Issued ( ' + issuedFor + ' )'
+    }
+    else {
+      return ProductStatus[status].replaceAll('_', ' ');
+    }
   }
 
 

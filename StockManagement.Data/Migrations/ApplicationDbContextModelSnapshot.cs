@@ -53,7 +53,7 @@ namespace StockManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
 
                     b.HasData(
                         new

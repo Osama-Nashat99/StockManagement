@@ -12,6 +12,7 @@ namespace StockManagement.Domain.Entities
         public string Password { get; set; }
         public Roles Role { get; set; }
         public bool IsFirstLogin { get; set; }
+        public Store? Store { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }

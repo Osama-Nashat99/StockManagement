@@ -60,12 +60,12 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
-      <mat-paginator
+    <mat-paginator class="mt-2 rounded-1"
           [length]="totalCategories"
           [pageSize]="pageSize"
           [pageSizeOptions]="pageSizeOptions"
           (page)="onPageChange($event)">
       </mat-paginator>
-    </div>
   </div>

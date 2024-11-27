@@ -110,7 +110,7 @@ namespace StockManagement.Data.Repositories
         public async Task<IEnumerable<User>> GetStoreKeepers()
         {
             Roles[] allowedRolesForKeepers = { Roles.Admin, Roles.Store_Keeper };
-            var users = await _db.users.Where(u => allowedRolesForKeepers.Contains(u.Role)).ToListAsync();
+            var users = await _db.users.Include(u => u.Store).Where(u => allowedRolesForKeepers.Contains(u.Role) && u.Store == null).ToListAsync();
             return users;
         }
     }

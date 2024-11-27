@@ -73,13 +73,12 @@
           </tr>
         </tbody>
       </table>
-  
-      <mat-paginator
-          [length]="totalStores"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions"
-          (page)="onPageChange($event)">
-      </mat-paginator>
     </div>
+    <mat-paginator class="mt-2 rounded-1"
+        [length]="totalStores"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)">
+    </mat-paginator>
   </div>
   

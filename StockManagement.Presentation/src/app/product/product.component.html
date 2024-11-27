@@ -16,58 +16,72 @@
 
   </div>
 
-  <div class="rounded-3 p-2 mt-2 bg-white">
-    <table class="table table-hover rounded-start-3">
+  <div class="table-container rounded-3 p-2 mt-2 bg-white" style="width: 100%; overflow-x: auto;">
+    <table class="table table-responsive table-hover rounded-start-3">
       <thead>
           <tr>
-              <th scope="col" (click)="sort('id')">
+              <th class="text-nowrap" scope="col" (click)="sort('id')">
                 ID
                 <span *ngIf="sortedColumn === 'id'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('name')">
+              <th class="text-nowrap" scope="col" (click)="sort('name')">
                 Name
                 <span *ngIf="sortedColumn === 'name'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('description')">
+              <th class="text-nowrap" scope="col" (click)="sort('description')">
                 Description
                 <span *ngIf="sortedColumn === 'description'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('categoryId')">
+              <th class="text-nowrap" scope="col" (click)="sort('categoryId')">
                 Category
                 <span *ngIf="sortedColumn === 'categoryId'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('price')">
+              <th class="text-nowrap" scope="col" (click)="sort('price')">
                 Price
                 <span *ngIf="sortedColumn === 'price'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th scope="col" (click)="sort('serialNumber')">
+              <th class="text-nowrap" scope="col" (click)="sort('serialNumber')">
                 Serial Number
                 <span *ngIf="sortedColumn === 'serialNumber'">
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th *ngIf="isAdmin()" scope="col">Actions</th>
+              <th class="text-nowrap" scope="col" (click)="sort('status')">
+                Status
+                <span *ngIf="sortedColumn === 'status'">
+                  {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                </span>
+              </th>
+              <th class="text-nowrap" scope="col" (click)="sort('storeId')">
+                Store
+                <span *ngIf="sortedColumn === 'storeId'">
+                  {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                </span>
+              </th>
+              <th class="text-nowrap" *ngIf="isAdmin()" scope="col">Actions</th>
           </tr>
       </thead>
       <tbody *ngIf="!loading && productsList.length > 0">
           <tr *ngFor="let product of productsList">
-              <th scope="row">{{product.id}}</th>
-              <td>{{product.name}}</td>
-              <td>{{product.description}}</td>
-              <td>{{product.categoryName}}</td>
-              <td><i class="bi bi-currency-dollar"></i>{{product.price}}</td>
-              <td>{{product.serialNumber}}</td>
-              <td *ngIf="isAdmin()">
+              <th class="text-nowrap" scope="row">{{product.id}}</th>
+              <td class="text-nowrap">{{product.name}}</td>
+              <td class="text-nowrap">{{product.description}}</td>
+              <td class="text-nowrap">{{product.categoryName}}</td>
+              <td class="text-nowrap"><i class="bi bi-currency-dollar"></i>{{product.price}}</td>
+              <td class="text-nowrap">{{product.serialNumber}}</td>
+              <td class="text-nowrap">{{getStatusLabel(product.status, product.issuedFor)}}</td>
+              <td class="text-nowrap">{{product.storeName}}</td>
+              <td class="text-nowrap" *ngIf="isAdmin()">
                 <a class="btn btn-link" [routerLink]="'edit/' + product.id">
                   <i class="bi bi-pencil"></i>
                 </a>
@@ -97,14 +111,14 @@
         </tr>
       </tbody>
     </table>
-
-    <mat-paginator
-        [length]="totalProducts"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="onPageChange($event)">
-    </mat-paginator>
   </div>
+
+  <mat-paginator class="mt-2 rounded-1"
+      [length]="totalProducts"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)">
+  </mat-paginator>
 </div>
 
 

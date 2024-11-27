@@ -13,7 +13,7 @@ namespace StockManagement.Data.Configurations
             builder.Property(s => s.Name).HasMaxLength(200).IsRequired(true);
 
             builder.HasOne(s => s.StoreKeeper)
-                .WithOne()
+                .WithOne(u => u.Store)
                 .HasForeignKey<Store>(s => s.StoreKeeperId)
                 .OnDelete(DeleteBehavior.Restrict);
 

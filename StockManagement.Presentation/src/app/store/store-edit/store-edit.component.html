@@ -17,7 +17,7 @@
               <label for="storeKeeper" class="form-label">Store Keeper <span>*</span></label>
               <select formControlName="storeKeeperId" class="form-select">
                   <option value="">Select</option>
-                  <option *ngFor="let s of storeKeepers" [value]="s.id">{{s.firstName + " " + s.lastName}}</option>
+                  <option *ngFor="let s of storeKeepers" [value]="s.id">{{s.username}}</option>
               </select>
               <span class="validation-message" *ngIf="storeKeeperId.invalid && storeKeeperId.touched">
                   Please select a store keeper.

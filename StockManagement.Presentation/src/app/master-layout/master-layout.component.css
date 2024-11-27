@@ -93,7 +93,7 @@
   text-decoration: none;
 }
 .sidebar .nav-links li:has(> a.active){
-  background-color: #e4e9f7;
+  background-color: #e4edf7;
 }
 .sidebar .nav-links li a .link_name{
   font-size: 18px;
@@ -156,7 +156,7 @@
 
 .home-section{
   position: relative;
-  background: #E4E9F7;
+  background: #e4edf7;
   height: 100vh;
   left: 235px;
   width: calc(100% - 235px);

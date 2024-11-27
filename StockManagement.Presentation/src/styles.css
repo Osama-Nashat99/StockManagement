@@ -1,14 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #e4edf7; }
 
 .validation-message {
     color: #fd6482;
     font-size: 14px;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.table-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: none;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #666666;
+}
