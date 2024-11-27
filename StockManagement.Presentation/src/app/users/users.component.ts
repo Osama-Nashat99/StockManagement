@@ -134,9 +134,6 @@ export class UsersComponent implements OnInit {
   }
 
   getRoleName(roleValue: number) : string | undefined {
-    console.log(roleValue);
-    return Role[roleValue];
+    return Role[roleValue].replaceAll('_', ' ');
   }
-
-
 }

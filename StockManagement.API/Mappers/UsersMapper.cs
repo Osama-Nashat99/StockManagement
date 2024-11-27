@@ -24,6 +24,18 @@ namespace StockManagement.API.Mappers
             return dto;
         }
 
+        public static IEnumerable<UserDto> ToUserDto(IEnumerable<User> model)
+        {
+            return model.Select(u => new UserDto()
+            {
+                Id = u.Id,
+                Username = u.Username,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Role = u.Role
+            });
+        }
+
         public static UserDto ToUserDto(User user)
         {
             return new UserDto()

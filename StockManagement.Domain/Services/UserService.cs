@@ -70,5 +70,11 @@ namespace StockManagement.Domain.Services
             _userRepository.Delete(user);
             return user;
         }
+
+        public IEnumerable<User> GetStoreKeepers() 
+        {
+            IEnumerable<User> users = _userRepository.GetStoreKeepers().Result;
+            return users;
+        }
     }
 }

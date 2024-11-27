@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.API.Dtos;
 using StockManagement.API.Mappers;
+using StockManagement.Domain.Entities;
 using StockManagement.Domain.Services;
 
 namespace StockManagement.API.Controllers
@@ -51,6 +51,14 @@ namespace StockManagement.API.Controllers
         {
             var user = _userService.DeleteUser(id);
             return UsersMapper.ToUserDto(user);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("keepers")]
+        public IEnumerable<UserDto> Keepers()
+        {
+            IEnumerable<User> users = _userService.GetStoreKeepers();
+            return UsersMapper.ToUserDto(users);
         }
     }
 }

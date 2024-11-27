@@ -40,18 +40,18 @@ namespace StockManagement.API.Controllers
 
         [Authorize(Roles = "1")]
         [HttpPost]
-        public StoreDto Post([FromBody] StoreDto storeDto)
+        public AddStoreDto Post([FromBody] StoreDto storeDto)
         {
             var username = HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
             var store = StoreMapper.ToStoreEntity(storeDto);
             store.CreatedBy = username;
             store = _storeService.AddStore(store);
-            return StoreMapper.ToStoreDto(store);
+            return StoreMapper.ToAddStoreDto(store);
         }
 
         [Authorize(Roles = "1")]
         [HttpPut("{id}")]
-        public StoreDto Put(int id, [FromBody] StoreDto storeDto)
+        public AddStoreDto Put(int id, [FromBody] StoreDto storeDto)
         {
             var username = HttpContext?.User?.Claims?.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
             var store = StoreMapper.ToStoreEntity(storeDto);
@@ -59,7 +59,7 @@ namespace StockManagement.API.Controllers
             store.ModifiedBy = username;
 
             store = _storeService.UpdateStore(id, store);
-            return StoreMapper.ToStoreDto(store);
+            return StoreMapper.ToAddStoreDto(store);
         }
 
         [Authorize(Roles = "1")]

@@ -40,4 +40,8 @@ import { ResetPassword } from "../models/ResetPassword.model";
 
       return this.http.put<User>(`${this.baseUrl}/users/reset/${id}`, resetPassword, {headers})
     }
+
+    getAvailableStoreKeepers() {
+      return this.http.get<User[]>(`${this.baseUrl}/users/Keepers`);
+    }
   }

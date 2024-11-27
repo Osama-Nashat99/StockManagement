@@ -28,6 +28,16 @@ namespace StockManagement.API.Mappers
             };
         }
 
+        public static AddStoreDto ToAddStoreDto(Store model)
+        {
+            return new AddStoreDto()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                StoreKeeperId = model.StoreKeeperId
+            };
+        }
+
         public static FetchDto<StoreDto> ToStoreDto(FetchModel<Store> model)
         {
             FetchDto<StoreDto> dto = new FetchDto<StoreDto>();

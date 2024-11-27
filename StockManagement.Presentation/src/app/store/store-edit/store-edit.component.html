@@ -1,1 +1,30 @@
-<p>store-edit works!</p>
+<div>
+  <div class="d-flex justify-content-between align-items-center">
+    <h4>Edit Store</h4>
+    <a class="btn btn-light btn-sm px-3 py-2 fw-bold text-nowrap" routerLink="/stores"><i class="bi bi-arrow-return-left pe-2"></i> Return to Stores</a>
+  </div>
+  <form class="bg-white p-3 rounded-3" (ngSubmit)="onUpdateStore()" [formGroup]="updateStoreForm">
+      <div class="row">
+          <div class="mb-3 col-md-6">
+              <label for="name" class="form-label">Name <span>*</span></label>
+              <input formControlName="name" type="text" class="form-control" id="name" placeholder="Store Name">
+              <span class="validation-message" *ngIf="name.invalid && name.touched">
+                  Please provide a valid name.
+              </span>
+          </div>
+
+          <div class="mb-3 col-md-6">
+              <label for="storeKeeper" class="form-label">Store Keeper <span>*</span></label>
+              <select formControlName="storeKeeperId" class="form-select">
+                  <option value="">Select</option>
+                  <option *ngFor="let s of storeKeepers" [value]="s.id">{{s.firstName + " " + s.lastName}}</option>
+              </select>
+              <span class="validation-message" *ngIf="storeKeeperId.invalid && storeKeeperId.touched">
+                  Please select a store keeper.
+              </span>
+          </div>
+      </div>
+
+      <button class="btn btn-primary me-2" type="submit" [disabled]="updateStoreForm.invalid">Update</button>
+  </form>
+</div>

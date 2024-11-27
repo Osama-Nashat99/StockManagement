@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Domain.Entities;
+using StockManagement.Domain.Enums;
 using StockManagement.Domain.Exceptions;
 using StockManagement.Domain.Interfaces;
 using StockManagement.Domain.Models;
@@ -104,6 +105,13 @@ namespace StockManagement.Data.Repositories
         public async Task<bool> IsUserExistsAsync(int id)
         {
             return await _db.users.AnyAsync(u => u.Id == id);
+        }
+
+        public async Task<IEnumerable<User>> GetStoreKeepers()
+        {
+            Roles[] allowedRolesForKeepers = { Roles.Admin, Roles.Store_Keeper };
+            var users = await _db.users.Where(u => allowedRolesForKeepers.Contains(u.Role)).ToListAsync();
+            return users;
         }
     }
 }

@@ -4,7 +4,6 @@ import { NgFor, NgIf } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HeaderComponent } from '../../header/header.component';
 import { Category } from '../../../models/Category.model';
 import { CategoryService } from '../../../services/category.service';
 import { Product } from '../../../models/Product.model';
@@ -16,7 +15,7 @@ import { StoreService } from '../../../services/store.service';
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.css'
 })
@@ -95,7 +94,7 @@ export class ProductEditComponent implements OnInit {
       status: parseInt(formValues.status),
       issuedFor: formValues.issuedFor
     };
-    
+
 
     this.productService.updateProduct(this.productId, product).subscribe(res => {
       this.snackBar.open('Product has been updated successfuly', 'Done', {

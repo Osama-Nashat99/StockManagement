@@ -3,14 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
-import { HeaderComponent } from '../../header/header.component';
 import { UserService } from '../../../services/user.service';
 import { Role } from '../../../enums/role.enum';
 
 @Component({
   selector: 'app-user-add',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './users-add.component.html',
   styleUrl: './users-add.component.css'
 })
@@ -38,7 +37,7 @@ export class UsersAddComponent {
   onCreateUser(){
     const formValues = this.createUserForm.value;
     formValues.role = parseInt(formValues.role);
-    
+
     this.userService.createUser(formValues)
           .subscribe(user => {
             if (user.id > 0){
@@ -57,7 +56,7 @@ export class UsersAddComponent {
     for (const c in Role){
       if (isNaN(Number(c))) {
         rolesArray.push(
-          { value: Role[c as keyof typeof Role], label: c }
+          { value: Role[c as keyof typeof Role], label: c.replaceAll('_', ' ') }
         );
       }
     };

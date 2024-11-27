@@ -9,7 +9,7 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-category-add',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
+  imports: [NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './category-add.component.html',
   styleUrl: './category-add.component.css'
 })
@@ -25,7 +25,7 @@ export class CategoryAddComponent {
 
   onCreateCategory(){
     const formValues = this.createCategoryForm.value;
-    
+
     this.categoryService.createCategory(formValues)
           .subscribe(category => {
             if (category.id > 0){
@@ -37,5 +37,5 @@ export class CategoryAddComponent {
             }
           });
   }
-  
+
 }

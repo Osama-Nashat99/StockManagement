@@ -68,7 +68,7 @@ namespace StockManagement.Data.Repositories
 
         public async Task<Store> GetByIdAsync(int id)
         {
-            return await _db.stores.Include(s => s.StoreKeeper).FirstOrDefaultAsync(s => s.Id == id);
+            return await _db.stores.AsNoTracking().Include(s => s.StoreKeeper).FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<bool> IsStoreExistsAsync(int id)

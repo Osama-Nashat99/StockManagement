@@ -20,5 +20,7 @@ namespace StockManagement.Domain.Interfaces
         void Delete(User user);
 
         public Task<bool> IsUserExistsAsync(int id);
+
+        public Task<IEnumerable<User>> GetStoreKeepers();
     }
 }
